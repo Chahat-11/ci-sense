@@ -420,20 +420,26 @@ VERDICT_FIELDS = ["what_failed", "why", "responsible_commit", "confidence", "sug
 
 
 def run_pipeline(run_id, post=False, progress=None):
-    """Triage one failed run. Returns (result, comment_body); posts to GitHub only when post=True."""
+    """Triage one failed run. Returns (result, comment_body); posts to GitHub only when post=True.
 
-    def stage(name):
+    progress(stage, status, preview) is called with status "start" when a stage begins and
+    "done" (plus a small preview dict of its output) when it finishes.
+    """
+
+    def stage(name, status="start", preview=None):
         if progress:
-            progress(name)
+            progress(name, status, preview)
 
     run = get_run(run_id)
     pr_number = get_pr_number(run)
 
     stage("fetching logs")
     log_text = get_run_logs(run_id)
+    stage("fetching logs", "done", {"log_lines": log_text.count("\n") + 1, "log_bytes": len(log_text)})
 
     stage("distilling")
     distilled = distill_error(log_text)
+    stage("distilling", "done", {"lines": distilled.count("\n") + 1, "preview": distilled[:600]})
 
     stage("finding candidates")
     branch, last_good_sha = run["head_branch"], None
@@ -452,6 +458,13 @@ def run_pipeline(run_id, post=False, progress=None):
             commits = get_commits_since(branch, None)
     candidates = [get_commit_diff(c["sha"]) for c in commits]
     print(f"Candidate commits: {[c['sha'][:7] for c in candidates]}")
+    stage("finding candidates", "done", {
+        "count": len(candidates),
+        "pr_number": pr_number,
+        "last_good_sha": last_good_sha,
+        "head_sha": run["head_sha"],
+        "candidates": [{"sha": c["sha"], "message": c["message"].splitlines()[0]} for c in candidates],
+    })
 
     header = None
     if pr_number is None:
@@ -463,9 +476,17 @@ def run_pipeline(run_id, post=False, progress=None):
 
     stage("scoring")
     scored = [{**c, **score_candidate(c, distilled)} for c in candidates]
+    stage("scoring", "done", {
+        "scores": [{"sha": c["sha"], "score": c["score"], "reasons": c["reasons"]} for c in scored],
+    })
 
     stage("LLM verdict")
     verdict = llm_verdict(distilled, scored)
+    stage("LLM verdict", "done", {
+        "responsible_commit": verdict["responsible_commit"],
+        "confidence": verdict.get("confidence"),
+        "fallback": verdict["fallback"],
+    })
     body = build_comment(verdict, scored, distilled, header)
     guilty_sha = verdict["responsible_commit"]
     guilty_pr = get_commit_pr(guilty_sha) if guilty_sha else None
@@ -517,6 +538,8 @@ def run_pipeline(run_id, post=False, progress=None):
             print(f"Posted triage comment on PR #{target}.")
         else:
             print(f"\n=== Would post to PR #{target} ===\n{text}")
+    if posts:
+        stage("posting", "done", {"targets": [target for target, _ in posts], "posted": post})
 
     return result, body
 
