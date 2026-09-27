@@ -83,6 +83,9 @@ def strip_timestamps(text):
 
 def distill_error(log_text):
     log_text = strip_timestamps(log_text)
+    cleanup = re.search(r"^.*Post job cleanup", log_text, flags=re.MULTILINE)
+    if cleanup:
+        log_text = log_text[:cleanup.start()]
     lines = log_text.splitlines()
     windows = []
     for i, line in enumerate(lines):
@@ -166,7 +169,7 @@ def get_commit_diff(sha):
 IDENTIFIER_PATTERN = re.compile(r"[A-Za-z_][A-Za-z0-9_]{2,}")
 NOISE_WORDS = {"assert", "error", "failed", "where", "test", "tests", "passed"}
 CONFIG_FILE_PATTERNS = ["requirements*.txt", "*.toml", "*.cfg", "*.ini", "*.yml", "*.yaml", ".env*"]
-CONFIG_ERROR_PATTERN = re.compile(r"ModuleNotFoundError|ImportError|KeyError|config", re.IGNORECASE)
+CONFIG_ERROR_PATTERN = re.compile(r"ModuleNotFoundError|ImportError|KeyError|(?<!git )\bconfig\b", re.IGNORECASE)
 
 
 def score_candidate(detail, error_text):
@@ -209,7 +212,8 @@ SYSTEM_PROMPT = (
     "reasons, and a truncated patch. Identify which commit most likely caused the failure. "
     "The failing line may be in one commit while the root cause is in another; reason about "
     "interactions between commits. Respond ONLY with JSON with keys: what_failed, why, "
-    "responsible_commit (must be a full sha copied from the candidates), confidence (0 to 1), "
+    "responsible_commit (must be a full sha copied from the candidates, or \"none\" if no "
+    "candidate plausibly caused the failure), confidence (0 to 1), "
     "suggested_fix, reasoning."
 )
 
@@ -226,6 +230,16 @@ def fallback_verdict(scored_candidates):
             "fallback": True,
         }
     best = max(scored_candidates, key=lambda c: c["score"])
+    if best["score"] == 0:
+        return {
+            "what_failed": "See the distilled error below.",
+            "why": "No candidate commit matched any deterministic signal.",
+            "responsible_commit": None,
+            "confidence": None,
+            "suggested_fix": "Inspect the distilled error and the candidates below manually.",
+            "reasoning": "",
+            "fallback": True,
+        }
     return {
         "what_failed": "See the distilled error below.",
         "why": "; ".join(best["reasons"]) or "No deterministic signal matched; picked by default.",
@@ -274,7 +288,10 @@ def llm_verdict(error_text, scored_candidates):
         print(f"LLM verdict unavailable ({type(exc).__name__}); using deterministic scoring.")
         return fallback_verdict(scored_candidates)
 
-    if verdict.get("responsible_commit") not in {c["sha"] for c in scored_candidates}:
+    responsible = verdict.get("responsible_commit")
+    if responsible is None or str(responsible).strip().lower() == "none":
+        verdict["responsible_commit"] = None
+    elif responsible not in {c["sha"] for c in scored_candidates}:
         print("LLM returned a sha outside the candidate set; using deterministic scoring.")
         return fallback_verdict(scored_candidates)
     verdict["fallback"] = False
@@ -285,7 +302,7 @@ def build_comment(verdict, scored_candidates, distilled, header=None):
     by_sha = {c["sha"]: c for c in scored_candidates}
     responsible = by_sha.get(verdict["responsible_commit"])
     if responsible is None:
-        commit_line = "none identified"
+        commit_line = "could not attribute with confidence"
     else:
         confidence = verdict.get("confidence")
         confidence_text = f"{round(float(confidence) * 100)}%" if confidence is not None else "n/a"
@@ -380,7 +397,10 @@ if __name__ == "__main__":
         guilty_pr = get_commit_pr(guilty_sha) if guilty_sha else None
         print(f"Guilty PR: {guilty_pr}")
         if guilty_pr is None:
-            print("Could not find the PR that introduced the responsible commit; not posting.\n")
+            if guilty_sha is None:
+                print("No commit could be attributed with confidence; not posting.\n")
+            else:
+                print("Could not find the PR that introduced the responsible commit; not posting.\n")
             print(body)
         else:
             posts.append((guilty_pr, body))
