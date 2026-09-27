@@ -1,0 +1,157 @@
+{
+  "cases": [
+    {
+      "case": "01",
+      "name": "import-typo",
+      "branch": "seed/01-import-typo",
+      "pr_number": 4,
+      "category": "import_error",
+      "description": "Test module imports src.calculater (typo), so collection fails with ModuleNotFoundError.",
+      "guilty_sha": "52751d1f67f295a2133c9c4bf9d2e68abd4716e9",
+      "commits": [
+        {
+          "sha": "52751d1f67f295a2133c9c4bf9d2e68abd4716e9",
+          "message": "Tidy up test imports",
+          "guilty": true
+        }
+      ]
+    },
+    {
+      "case": "02",
+      "name": "divide-logic",
+      "branch": "seed/02-divide-logic",
+      "pr_number": 5,
+      "category": "logic_bug",
+      "description": "divide returns a * b instead of a / b.",
+      "guilty_sha": "2a8b1aee2a835588bbaa72cb224c58e32c724d61",
+      "commits": [
+        {
+          "sha": "2a8b1aee2a835588bbaa72cb224c58e32c724d61",
+          "message": "Streamline divide return path",
+          "guilty": true
+        }
+      ]
+    },
+    {
+      "case": "03",
+      "name": "wrong-expectation",
+      "branch": "seed/03-wrong-expectation",
+      "pr_number": 6,
+      "category": "test_bug",
+      "description": "Test expects add(2, 3) == 6; the implementation is correct.",
+      "guilty_sha": "eb1f6351c0657fd00fa72a322ae48e49a5ac72b8",
+      "commits": [
+        {
+          "sha": "eb1f6351c0657fd00fa72a322ae48e49a5ac72b8",
+          "message": "Update add test values",
+          "guilty": true
+        }
+      ]
+    },
+    {
+      "case": "04",
+      "name": "syntax-error",
+      "branch": "seed/04-syntax-error",
+      "pr_number": 7,
+      "category": "syntax_error",
+      "description": "Type-hint refactor drops the colon after add's signature: SyntaxError in src/calculator.py.",
+      "guilty_sha": "7ee253637704dbe3618902bf604cdc933b541420",
+      "commits": [
+        {
+          "sha": "7ee253637704dbe3618902bf604cdc933b541420",
+          "message": "Add type hints to calculator functions",
+          "guilty": true
+        }
+      ]
+    },
+    {
+      "case": "05",
+      "name": "bad-dependency",
+      "branch": "seed/05-bad-dependency",
+      "pr_number": 8,
+      "category": "dependency",
+      "description": "requirements.txt pins pytest-timeout==99.1.0, which does not exist; pip install fails before pytest runs.",
+      "guilty_sha": "0eee067528c141b97deebeccaf20d68d0b8297b6",
+      "commits": [
+        {
+          "sha": "0eee067528c141b97deebeccaf20d68d0b8297b6",
+          "message": "Add pytest-timeout to guard against hanging tests",
+          "guilty": true
+        }
+      ]
+    },
+    {
+      "case": "06",
+      "name": "add-bug-among-three",
+      "branch": "seed/06-add-bug-among-three",
+      "pr_number": 9,
+      "category": "multi_commit_logic",
+      "description": "Three commits; the middle one changes add to compute a + a.",
+      "guilty_sha": "2b9d0639daa9712e9ff119c66ac160e8471c2650",
+      "commits": [
+        {
+          "sha": "091dc579cef7b5d28e90715b39c9149a1c58a43d",
+          "message": "Document local setup in README",
+          "guilty": false
+        },
+        {
+          "sha": "2b9d0639daa9712e9ff119c66ac160e8471c2650",
+          "message": "Use in-place accumulation in add",
+          "guilty": true
+        },
+        {
+          "sha": "de413bf65cf2b40b9fd1ce412964a05943f74394",
+          "message": "Add divide test for negative numbers",
+          "guilty": false
+        }
+      ]
+    },
+    {
+      "case": "07",
+      "name": "rename-without-tests",
+      "branch": "seed/07-rename-without-tests",
+      "pr_number": 10,
+      "category": "multi_commit_rename",
+      "description": "First of three commits renames divide to safe_divide in src only; tests still import divide.",
+      "guilty_sha": "7da0e5a138e67e8b0c8d64f9228898e453a58d6c",
+      "commits": [
+        {
+          "sha": "7da0e5a138e67e8b0c8d64f9228898e453a58d6c",
+          "message": "Rename divide to safe_divide to make zero handling explicit",
+          "guilty": true
+        },
+        {
+          "sha": "8ae61234a7f773328233d55e3af6b8736558f6cb",
+          "message": "Add project description to README",
+          "guilty": false
+        },
+        {
+          "sha": "869504697939058cc2e1534fe5b42d460c8f45cc",
+          "message": "Add module docstring to calculator",
+          "guilty": false
+        }
+      ]
+    },
+    {
+      "case": "08",
+      "name": "zero-check-change",
+      "branch": "seed/08-zero-check-change",
+      "pr_number": 11,
+      "category": "multi_commit_behavior",
+      "description": "Second of two commits makes divide return signed infinity for non-zero numerators over zero, so divide(10, 0) no longer raises ValueError.",
+      "guilty_sha": "8dccf0b7442257ac88cc24b214e869600d510737",
+      "commits": [
+        {
+          "sha": "b7eb38348e7b905603baf6bd191753b9f05b676a",
+          "message": "Add multiply helper with tests",
+          "guilty": false
+        },
+        {
+          "sha": "8dccf0b7442257ac88cc24b214e869600d510737",
+          "message": "Return signed infinity for non-zero numerators over zero",
+          "guilty": true
+        }
+      ]
+    }
+  ]
+}
