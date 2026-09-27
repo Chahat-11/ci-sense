@@ -1,0 +1,107 @@
+{
+  "summary": {
+    "cases": 8,
+    "completed": 8,
+    "accuracy": 1.0,
+    "counts": {
+      "correct": 8,
+      "wrong": 0,
+      "abstained": 0,
+      "pending": 0
+    },
+    "llm": 8,
+    "fallback": 0,
+    "avg_confidence_correct": 0.968,
+    "avg_confidence_wrong": null
+  },
+  "cases": [
+    {
+      "case": "01",
+      "category": "import_error",
+      "pr_number": 4,
+      "expected_sha": "52751d1f67f295a2133c9c4bf9d2e68abd4716e9",
+      "verdict_sha": "52751d1f67f295a2133c9c4bf9d2e68abd4716e9",
+      "confidence": 0.99,
+      "source": "llm",
+      "fallback_reason": null,
+      "result": "correct"
+    },
+    {
+      "case": "02",
+      "category": "logic_bug",
+      "pr_number": 5,
+      "expected_sha": "2a8b1aee2a835588bbaa72cb224c58e32c724d61",
+      "verdict_sha": "2a8b1aee2a835588bbaa72cb224c58e32c724d61",
+      "confidence": 0.99,
+      "source": "llm",
+      "fallback_reason": null,
+      "result": "correct"
+    },
+    {
+      "case": "03",
+      "category": "test_bug",
+      "pr_number": 6,
+      "expected_sha": "eb1f6351c0657fd00fa72a322ae48e49a5ac72b8",
+      "verdict_sha": "eb1f6351c0657fd00fa72a322ae48e49a5ac72b8",
+      "confidence": 0.96,
+      "source": "llm",
+      "fallback_reason": null,
+      "result": "correct"
+    },
+    {
+      "case": "04",
+      "category": "syntax_error",
+      "pr_number": 7,
+      "expected_sha": "7ee253637704dbe3618902bf604cdc933b541420",
+      "verdict_sha": "7ee253637704dbe3618902bf604cdc933b541420",
+      "confidence": 0.96,
+      "source": "llm",
+      "fallback_reason": null,
+      "result": "correct"
+    },
+    {
+      "case": "05",
+      "category": "dependency",
+      "pr_number": 8,
+      "expected_sha": "0eee067528c141b97deebeccaf20d68d0b8297b6",
+      "verdict_sha": "0eee067528c141b97deebeccaf20d68d0b8297b6",
+      "confidence": 0.97,
+      "source": "llm",
+      "fallback_reason": null,
+      "result": "correct"
+    },
+    {
+      "case": "06",
+      "category": "multi_commit_logic",
+      "pr_number": 9,
+      "expected_sha": "2b9d0639daa9712e9ff119c66ac160e8471c2650",
+      "verdict_sha": "2b9d0639daa9712e9ff119c66ac160e8471c2650",
+      "confidence": 0.95,
+      "source": "llm",
+      "fallback_reason": null,
+      "result": "correct"
+    },
+    {
+      "case": "07",
+      "category": "multi_commit_rename",
+      "pr_number": 10,
+      "expected_sha": "7da0e5a138e67e8b0c8d64f9228898e453a58d6c",
+      "verdict_sha": "7da0e5a138e67e8b0c8d64f9228898e453a58d6c",
+      "confidence": 0.96,
+      "source": "llm",
+      "fallback_reason": null,
+      "result": "correct"
+    },
+    {
+      "case": "08",
+      "category": "multi_commit_behavior",
+      "pr_number": 11,
+      "expected_sha": "8dccf0b7442257ac88cc24b214e869600d510737",
+      "verdict_sha": "8dccf0b7442257ac88cc24b214e869600d510737",
+      "confidence": 0.96,
+      "source": "llm",
+      "fallback_reason": null,
+      "result": "correct"
+    }
+  ]
+}
