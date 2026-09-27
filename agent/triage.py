@@ -83,9 +83,62 @@ def distill_error(log_text):
     return "\n---\n".join("\n".join(lines[start:end]) for start, end in windows)
 
 
+def get_last_success_sha(branch):
+    resp = requests.get(
+        f"{API}/repos/{REPO}/actions/workflows/test.yml/runs",
+        headers=HEADERS,
+        params={"branch": branch, "status": "success", "per_page": 1},
+        timeout=30,
+    )
+    resp.raise_for_status()
+    runs = resp.json()["workflow_runs"]
+    if runs:
+        return runs[0]["head_sha"]
+    return None
+
+
+def get_commits_since(branch, since_sha):
+    resp = requests.get(
+        f"{API}/repos/{REPO}/commits",
+        headers=HEADERS,
+        params={"sha": branch, "per_page": 20},
+        timeout=30,
+    )
+    resp.raise_for_status()
+    commits = resp.json()
+    if since_sha is None:
+        return commits[:5]
+    candidates = []
+    for commit in commits:
+        if commit["sha"] == since_sha:
+            break
+        candidates.append(commit)
+    return candidates
+
+
+def get_commit_diff(sha):
+    resp = requests.get(f"{API}/repos/{REPO}/commits/{sha}", headers=HEADERS, timeout=30)
+    resp.raise_for_status()
+    data = resp.json()
+    files = data.get("files", [])
+    return {
+        "sha": data["sha"],
+        "message": data["commit"]["message"],
+        "files": [f["filename"] for f in files],
+        "patch": "\n".join(f.get("patch", "") for f in files)[:3000],
+    }
+
+
 if __name__ == "__main__":
     run = get_run()
     pr_number = get_pr_number(run)
+
+    branch = run["head_branch"]
+    last_good_sha = get_last_success_sha(branch)
+    candidates = [get_commit_diff(c["sha"]) for c in get_commits_since(branch, last_good_sha)]
+    print(f"Last good sha on {branch}: {last_good_sha}")
+    print(f"Candidate commits: {[c['sha'][:7] for c in candidates]}")
+
     if pr_number is None:
         print(f"Run {RUN_ID} is not associated with a pull request; skipping comment.")
     else:
