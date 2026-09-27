@@ -15,7 +15,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 GITHUB_TOKEN = os.environ["GITHUB_TOKEN"]
-GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
+GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "").strip()
 RUN_ID = os.environ.get("RUN_ID")
 REPO = os.environ.get("GITHUB_REPOSITORY")
 
@@ -48,11 +48,23 @@ def get_pr_number(run):
     return None
 
 
+SECRET_PATTERN = re.compile(r"\b(gsk_|ghp_|gho_|ghs_|ghu_|github_pat_)[A-Za-z0-9_]+")
+
+
+def redact_secrets(text):
+    """Scrub API keys/tokens by pattern and by exact value, so escaped or partial echoes can't leak."""
+    text = SECRET_PATTERN.sub(r"\1[REDACTED]", text)
+    for secret in (GROQ_API_KEY, GITHUB_TOKEN):
+        if secret:
+            text = text.replace(secret, "[REDACTED]")
+    return text
+
+
 def post_comment(pr_number, body):
     resp = requests.post(
         f"{API}/repos/{REPO}/issues/{pr_number}/comments",
         headers=HEADERS,
-        json={"body": body},
+        json={"body": redact_secrets(body)},
         timeout=30,
     )
     resp.raise_for_status()
@@ -275,8 +287,7 @@ def log_llm_fallback(reason, exc=None):
         reason = f"{reason}: {type(exc).__name__}: {exc}"
         if exc.__cause__ is not None:
             reason += f" (cause: {type(exc.__cause__).__name__}: {exc.__cause__})"
-    if GROQ_API_KEY:
-        reason = reason.replace(GROQ_API_KEY, "[REDACTED]")
+    reason = redact_secrets(reason)
     message = f"{reason} [{key_status}]"
     print(f"LLM verdict unavailable — {message}; using deterministic scoring.")
     return message
