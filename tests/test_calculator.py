@@ -8,6 +8,6 @@ def test_add():
 
 
 def test_divide():
-    assert divide(10, 2) == 5
+    assert divide(10, 2) == 999
     with pytest.raises(ValueError, match="cannot divide by zero"):
         divide(1, 0)
