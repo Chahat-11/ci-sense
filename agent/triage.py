@@ -1,4 +1,5 @@
 import argparse
+import datetime
 import fnmatch
 import io
 import json
@@ -26,8 +27,8 @@ HEADERS = {
 GROQ_MODEL = os.environ.get("GROQ_MODEL") or "openai/gpt-oss-120b"
 
 
-def get_run():
-    resp = requests.get(f"{API}/repos/{REPO}/actions/runs/{RUN_ID}", headers=HEADERS, timeout=30)
+def get_run(run_id):
+    resp = requests.get(f"{API}/repos/{REPO}/actions/runs/{run_id}", headers=HEADERS, timeout=30)
     resp.raise_for_status()
     return resp.json()
 
@@ -219,7 +220,13 @@ SYSTEM_PROMPT = (
 )
 
 
-def fallback_verdict(scored_candidates):
+def fallback_verdict(scored_candidates, reason=None):
+    verdict = _fallback_verdict(scored_candidates)
+    verdict["fallback_reason"] = reason
+    return verdict
+
+
+def _fallback_verdict(scored_candidates):
     if not scored_candidates:
         return {
             "what_failed": "See the distilled error below.",
@@ -270,16 +277,16 @@ def log_llm_fallback(reason, exc=None):
             reason += f" (cause: {type(exc.__cause__).__name__}: {exc.__cause__})"
     if GROQ_API_KEY:
         reason = reason.replace(GROQ_API_KEY, "[REDACTED]")
-    print(f"LLM verdict unavailable — {reason} [{key_status}]; using deterministic scoring.")
+    message = f"{reason} [{key_status}]"
+    print(f"LLM verdict unavailable — {message}; using deterministic scoring.")
+    return message
 
 
 def llm_verdict(error_text, scored_candidates):
     if not GROQ_API_KEY:
-        log_llm_fallback("GROQ_API_KEY not set")
-        return fallback_verdict(scored_candidates)
+        return fallback_verdict(scored_candidates, log_llm_fallback("GROQ_API_KEY not set"))
     if not scored_candidates:
-        log_llm_fallback("no candidate commits to judge")
-        return fallback_verdict(scored_candidates)
+        return fallback_verdict(scored_candidates, log_llm_fallback("no candidate commits to judge"))
 
     candidates_payload = [
         {
@@ -303,8 +310,7 @@ def llm_verdict(error_text, scored_candidates):
         # max_retries=0: the retry loop below is the only retry layer
         client = groq.Groq(api_key=GROQ_API_KEY, timeout=30, max_retries=0)
     except Exception as exc:
-        log_llm_fallback("could not create Groq client", exc)
-        return fallback_verdict(scored_candidates)
+        return fallback_verdict(scored_candidates, log_llm_fallback("could not create Groq client", exc))
 
     for attempt in range(1, LLM_ATTEMPTS + 1):
         content = None
@@ -327,18 +333,21 @@ def llm_verdict(error_text, scored_candidates):
                 time.sleep(LLM_RETRY_WAITS[attempt - 1])
                 continue
             if content is not None:
-                log_llm_fallback(f"unparseable response {content[:500]!r}", exc)
+                reason = log_llm_fallback(f"unparseable response {content[:500]!r}", exc)
             else:
-                log_llm_fallback(f"Groq call failed on attempt {attempt}", exc)
-            return fallback_verdict(scored_candidates)
+                reason = log_llm_fallback(f"Groq call failed on attempt {attempt}", exc)
+            return fallback_verdict(scored_candidates, reason)
 
     responsible = verdict.get("responsible_commit")
     if responsible is None or str(responsible).strip().lower() == "none":
         verdict["responsible_commit"] = None
     elif responsible not in {c["sha"] for c in scored_candidates}:
-        log_llm_fallback(f"responsible_commit {responsible!r} is not a candidate sha; raw response {content[:500]!r}")
-        return fallback_verdict(scored_candidates)
+        reason = log_llm_fallback(
+            f"responsible_commit {responsible!r} is not a candidate sha; raw response {content[:500]!r}"
+        )
+        return fallback_verdict(scored_candidates, reason)
     verdict["fallback"] = False
+    verdict["fallback_reason"] = None
     return verdict
 
 
@@ -390,19 +399,33 @@ def normalize_repo(value):
     return value.removesuffix(".git").strip("/")
 
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="CI-Sense failure triage")
-    parser.add_argument("--local", metavar="RUN_ID", help="triage this run and print the comment instead of posting it")
-    args = parser.parse_args()
+def with_hidden_data(text, result):
+    """Append the result as an HTML comment; "--" is escaped so the JSON can't close the comment."""
+    data = json.dumps(result, ensure_ascii=False).replace("--", "-\\u002d")
+    return f"{text}\n\n<!-- ci-sense-data {data} -->"
 
-    if args.local:
-        RUN_ID = args.local
-        if not REPO:
-            REPO = normalize_repo(os.environ["GITHUB_REPO"])
 
-    run = get_run()
+VERDICT_FIELDS = ["what_failed", "why", "responsible_commit", "confidence", "suggested_fix", "reasoning"]
+
+
+def run_pipeline(run_id, post=False, progress=None):
+    """Triage one failed run. Returns (result, comment_body); posts to GitHub only when post=True."""
+
+    def stage(name):
+        if progress:
+            progress(name)
+
+    run = get_run(run_id)
     pr_number = get_pr_number(run)
 
+    stage("fetching logs")
+    log_text = get_run_logs(run_id)
+
+    stage("distilling")
+    distilled = distill_error(log_text)
+
+    stage("finding candidates")
+    branch, last_good_sha = run["head_branch"], None
     if pr_number is not None:
         resp = requests.get(f"{API}/repos/{REPO}/pulls/{pr_number}", headers=HEADERS, timeout=30)
         resp.raise_for_status()
@@ -410,7 +433,6 @@ if __name__ == "__main__":
         print(f"PR #{pr_number}: comparing {base_ref}...{run['head_sha'][:7]}")
         commits = get_candidate_commits(base_ref, run["head_sha"])
     else:
-        branch = run["head_branch"]
         last_good_sha = get_last_success_sha(branch)
         print(f"Last good sha on {branch}: {last_good_sha}")
         if last_good_sha:
@@ -428,17 +450,36 @@ if __name__ == "__main__":
             f"{len(candidates)} candidate commits {since}."
         )
 
-    distilled = distill_error(get_run_logs(RUN_ID))
+    stage("scoring")
     scored = [{**c, **score_candidate(c, distilled)} for c in candidates]
+
+    stage("LLM verdict")
     verdict = llm_verdict(distilled, scored)
     body = build_comment(verdict, scored, distilled, header)
+    guilty_sha = verdict["responsible_commit"]
+    guilty_pr = get_commit_pr(guilty_sha) if guilty_sha else None
+
+    result = {
+        "run_id": int(run_id),
+        "pr_number": pr_number,
+        "guilty_pr": guilty_pr,
+        "head_sha": run["head_sha"],
+        "last_good_sha": last_good_sha,
+        "candidates": [
+            {k: c[k] for k in ("sha", "message", "files", "score", "reasons")} for c in scored
+        ],
+        **{k: verdict.get(k) for k in VERDICT_FIELDS},
+        "fallback": verdict["fallback"],
+        "fallback_reason": verdict["fallback_reason"],
+        "model": GROQ_MODEL,
+        "timestamp": datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds"),
+        "distilled_error": distilled[:1500],
+    }
 
     posts = []
     if pr_number is not None:
         posts.append((pr_number, body))
     else:
-        guilty_sha = verdict["responsible_commit"]
-        guilty_pr = get_commit_pr(guilty_sha) if guilty_sha else None
         print(f"Guilty PR: {guilty_pr}")
         if guilty_pr is None:
             if guilty_sha is None:
@@ -456,9 +497,27 @@ if __name__ == "__main__":
                 )
                 posts.append((head_pr, note))
 
+    if posts:
+        stage("posting")
     for target, text in posts:
-        if args.local:
-            print(f"\n=== Would post to PR #{target} ===\n{text}")
-        else:
+        text = with_hidden_data(text, result)
+        if post:
             post_comment(target, text)
             print(f"Posted triage comment on PR #{target}.")
+        else:
+            print(f"\n=== Would post to PR #{target} ===\n{text}")
+
+    return result, body
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="CI-Sense failure triage")
+    parser.add_argument("--local", metavar="RUN_ID", help="triage this run and print the comment instead of posting it")
+    args = parser.parse_args()
+
+    if args.local:
+        if not REPO:
+            REPO = normalize_repo(os.environ["GITHUB_REPO"])
+        run_pipeline(args.local, post=False)
+    else:
+        run_pipeline(RUN_ID, post=True)
