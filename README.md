@@ -12,3 +12,7 @@ Seed PRs with known breakages, let CI-Sense triage them, then score its verdicts
     python scripts/seed_failures.py --cleanup   # close seed PRs, delete seed/* branches
 
 Ground truth lives in `seeds/ground_truth.json`; scores are written to `seeds/results.json`.
+
+## Setup
+
+    pip install -r requirements.txt
