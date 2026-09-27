@@ -1,5 +1,7 @@
 def add(a, b):
-    return a + b
+    total = a
+    total += a
+    return total
 
 
 def divide(a, b):
