@@ -116,6 +116,12 @@ def get_commits_since(branch, since_sha):
     return candidates
 
 
+def get_pr_candidate_commits(base, head):
+    resp = requests.get(f"{API}/repos/{REPO}/compare/{base}...{head}", headers=HEADERS, timeout=30)
+    resp.raise_for_status()
+    return [{"sha": c["sha"], "message": c["commit"]["message"]} for c in resp.json()["commits"]]
+
+
 def get_commit_diff(sha):
     resp = requests.get(f"{API}/repos/{REPO}/commits/{sha}", headers=HEADERS, timeout=30)
     resp.raise_for_status()
@@ -133,10 +139,19 @@ if __name__ == "__main__":
     run = get_run()
     pr_number = get_pr_number(run)
 
-    branch = run["head_branch"]
-    last_good_sha = get_last_success_sha(branch)
-    candidates = [get_commit_diff(c["sha"]) for c in get_commits_since(branch, last_good_sha)]
-    print(f"Last good sha on {branch}: {last_good_sha}")
+    if pr_number is not None:
+        resp = requests.get(f"{API}/repos/{REPO}/pulls/{pr_number}", headers=HEADERS, timeout=30)
+        resp.raise_for_status()
+        pr = resp.json()
+        base_ref, head_ref = pr["base"]["ref"], pr["head"]["ref"]
+        print(f"PR #{pr_number}: comparing {base_ref}...{head_ref}")
+        commits = get_pr_candidate_commits(base_ref, head_ref)
+    else:
+        branch = run["head_branch"]
+        last_good_sha = get_last_success_sha(branch)
+        print(f"Last good sha on {branch}: {last_good_sha}")
+        commits = get_commits_since(branch, last_good_sha)
+    candidates = [get_commit_diff(c["sha"]) for c in commits]
     print(f"Candidate commits: {[c['sha'][:7] for c in candidates]}")
 
     if pr_number is None:
