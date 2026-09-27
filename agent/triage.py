@@ -262,8 +262,23 @@ def is_transient_groq_error(exc, groq):
     return isinstance(exc, groq.APIStatusError) and exc.status_code >= 500
 
 
+def log_llm_fallback(reason, exc=None):
+    key_status = f"key present, length {len(GROQ_API_KEY)}" if GROQ_API_KEY else "key empty"
+    if exc is not None:
+        reason = f"{reason}: {type(exc).__name__}: {exc}"
+        if exc.__cause__ is not None:
+            reason += f" (cause: {type(exc.__cause__).__name__}: {exc.__cause__})"
+    if GROQ_API_KEY:
+        reason = reason.replace(GROQ_API_KEY, "[REDACTED]")
+    print(f"LLM verdict unavailable — {reason} [{key_status}]; using deterministic scoring.")
+
+
 def llm_verdict(error_text, scored_candidates):
-    if not GROQ_API_KEY or not scored_candidates:
+    if not GROQ_API_KEY:
+        log_llm_fallback("GROQ_API_KEY not set")
+        return fallback_verdict(scored_candidates)
+    if not scored_candidates:
+        log_llm_fallback("no candidate commits to judge")
         return fallback_verdict(scored_candidates)
 
     candidates_payload = [
@@ -288,10 +303,11 @@ def llm_verdict(error_text, scored_candidates):
         # max_retries=0: the retry loop below is the only retry layer
         client = groq.Groq(api_key=GROQ_API_KEY, timeout=30, max_retries=0)
     except Exception as exc:
-        print(f"LLM verdict unavailable ({type(exc).__name__}); using deterministic scoring.")
+        log_llm_fallback("could not create Groq client", exc)
         return fallback_verdict(scored_candidates)
 
     for attempt in range(1, LLM_ATTEMPTS + 1):
+        content = None
         try:
             response = client.chat.completions.create(
                 model=GROQ_MODEL,
@@ -302,21 +318,25 @@ def llm_verdict(error_text, scored_candidates):
                     {"role": "user", "content": user_message},
                 ],
             )
-            verdict = json.loads(response.choices[0].message.content)
+            content = response.choices[0].message.content
+            verdict = json.loads(content)
             break
         except Exception as exc:
             if attempt < LLM_ATTEMPTS and is_transient_groq_error(exc, groq):
                 print(f"LLM attempt {attempt} failed ({type(exc).__name__}), retrying")
                 time.sleep(LLM_RETRY_WAITS[attempt - 1])
                 continue
-            print(f"LLM verdict unavailable ({type(exc).__name__}); using deterministic scoring.")
+            if content is not None:
+                log_llm_fallback(f"unparseable response {content[:500]!r}", exc)
+            else:
+                log_llm_fallback(f"Groq call failed on attempt {attempt}", exc)
             return fallback_verdict(scored_candidates)
 
     responsible = verdict.get("responsible_commit")
     if responsible is None or str(responsible).strip().lower() == "none":
         verdict["responsible_commit"] = None
     elif responsible not in {c["sha"] for c in scored_candidates}:
-        print("LLM returned a sha outside the candidate set; using deterministic scoring.")
+        log_llm_fallback(f"responsible_commit {responsible!r} is not a candidate sha; raw response {content[:500]!r}")
         return fallback_verdict(scored_candidates)
     verdict["fallback"] = False
     return verdict
