@@ -23,7 +23,15 @@ def get_run():
 
 
 def get_pr_number(run):
-    prs = run.get("pull_requests") or []
+    owner = REPO.split("/")[0]
+    resp = requests.get(
+        f"{API}/repos/{REPO}/pulls",
+        headers=HEADERS,
+        params={"head": f"{owner}:{run['head_branch']}", "state": "open"},
+        timeout=30,
+    )
+    resp.raise_for_status()
+    prs = resp.json()
     if prs:
         return prs[0]["number"]
     return None
