@@ -119,7 +119,7 @@ def get_commits_since(branch, since_sha):
         timeout=30,
     )
     resp.raise_for_status()
-    commits = resp.json()
+    commits = [c for c in resp.json() if len(c["parents"]) <= 1]
     if since_sha is None:
         return commits[:5]
     candidates = []
@@ -130,10 +130,24 @@ def get_commits_since(branch, since_sha):
     return candidates
 
 
-def get_pr_candidate_commits(base, head):
+def get_candidate_commits(base, head):
+    """Non-merge commits in base...head; base and head can be branch names or shas."""
     resp = requests.get(f"{API}/repos/{REPO}/compare/{base}...{head}", headers=HEADERS, timeout=30)
     resp.raise_for_status()
-    return [{"sha": c["sha"], "message": c["commit"]["message"]} for c in resp.json()["commits"]]
+    return [
+        {"sha": c["sha"], "message": c["commit"]["message"]}
+        for c in resp.json()["commits"]
+        if len(c["parents"]) <= 1
+    ]
+
+
+def get_commit_pr(sha):
+    resp = requests.get(f"{API}/repos/{REPO}/commits/{sha}/pulls", headers=HEADERS, timeout=30)
+    resp.raise_for_status()
+    prs = resp.json()
+    if prs:
+        return prs[0]["number"]
+    return None
 
 
 def get_commit_diff(sha):
@@ -267,7 +281,7 @@ def llm_verdict(error_text, scored_candidates):
     return verdict
 
 
-def build_comment(verdict, scored_candidates, distilled):
+def build_comment(verdict, scored_candidates, distilled, header=None):
     by_sha = {c["sha"]: c for c in scored_candidates}
     responsible = by_sha.get(verdict["responsible_commit"])
     if responsible is None:
@@ -280,7 +294,8 @@ def build_comment(verdict, scored_candidates, distilled):
             f"(confidence {confidence_text})"
         )
 
-    lines = [
+    lines = [header, ""] if header else []
+    lines += [
         "## 🤖 CI-Sense triage",
         f"**What failed:** {verdict.get('what_failed', '')}",
         f"**Why:** {verdict.get('why', '')}",
@@ -332,24 +347,54 @@ if __name__ == "__main__":
         resp.raise_for_status()
         base_ref = resp.json()["base"]["ref"]
         print(f"PR #{pr_number}: comparing {base_ref}...{run['head_sha'][:7]}")
-        commits = get_pr_candidate_commits(base_ref, run["head_sha"])
+        commits = get_candidate_commits(base_ref, run["head_sha"])
     else:
         branch = run["head_branch"]
         last_good_sha = get_last_success_sha(branch)
         print(f"Last good sha on {branch}: {last_good_sha}")
-        commits = get_commits_since(branch, last_good_sha)
+        if last_good_sha:
+            commits = get_candidate_commits(last_good_sha, run["head_sha"])
+        else:
+            commits = get_commits_since(branch, None)
     candidates = [get_commit_diff(c["sha"]) for c in commits]
     print(f"Candidate commits: {[c['sha'][:7] for c in candidates]}")
 
-    if pr_number is None and not args.local:
-        print(f"Run {RUN_ID} is not associated with a pull request; skipping comment.")
+    header = None
+    if pr_number is None:
+        since = f"since last green run `{last_good_sha[:7]}`" if last_good_sha else "(no previous green run found)"
+        header = (
+            f"Failure on `{branch}` at `{run['head_sha'][:7]}` — "
+            f"{len(candidates)} candidate commits {since}."
+        )
+
+    distilled = distill_error(get_run_logs(RUN_ID))
+    scored = [{**c, **score_candidate(c, distilled)} for c in candidates]
+    verdict = llm_verdict(distilled, scored)
+    body = build_comment(verdict, scored, distilled, header)
+
+    posts = []
+    if pr_number is not None:
+        posts.append((pr_number, body))
     else:
-        distilled = distill_error(get_run_logs(RUN_ID))
-        scored = [{**c, **score_candidate(c, distilled)} for c in candidates]
-        verdict = llm_verdict(distilled, scored)
-        body = build_comment(verdict, scored, distilled)
-        if args.local:
-            print("\n" + body)
+        guilty_sha = verdict["responsible_commit"]
+        guilty_pr = get_commit_pr(guilty_sha) if guilty_sha else None
+        print(f"Guilty PR: {guilty_pr}")
+        if guilty_pr is None:
+            print("Could not find the PR that introduced the responsible commit; not posting.\n")
+            print(body)
         else:
-            post_comment(pr_number, body)
-            print(f"Posted triage comment on PR #{pr_number}.")
+            posts.append((guilty_pr, body))
+            head_pr = get_commit_pr(run["head_sha"])
+            if head_pr is not None and head_pr != guilty_pr:
+                note = (
+                    f"🤖 CI-Sense: this failure on main was attributed to #{guilty_pr} "
+                    f"(`{guilty_sha[:7]}`), not to this PR. Details in #{guilty_pr}."
+                )
+                posts.append((head_pr, note))
+
+    for target, text in posts:
+        if args.local:
+            print(f"\n=== Would post to PR #{target} ===\n{text}")
+        else:
+            post_comment(target, text)
+            print(f"Posted triage comment on PR #{target}.")
