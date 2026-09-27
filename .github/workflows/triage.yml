@@ -5,14 +5,13 @@ on:
     workflows: ["tests"]
     types: [completed]
 
-permissions:
-  actions: read
-  contents: read
-  pull-requests: write
-
 jobs:
   triage:
     runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      pull-requests: write
     if: github.event.workflow_run.conclusion == 'failure'
     steps:
       - uses: actions/checkout@v4
