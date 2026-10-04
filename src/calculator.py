@@ -4,7 +4,7 @@ def add(a, b):
 
 def divide(a, b):
     if b == 0:
-        raise ValueError("cannot divide by zero")
+        raise ValueError("division by zero is undefined")
     return a / b
 
 
