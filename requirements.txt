@@ -2,3 +2,4 @@ pytest
 requests
 python-dotenv
 groq
+pytest-cov==4.1.0
