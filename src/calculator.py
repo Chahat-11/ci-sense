@@ -1,5 +1,5 @@
 def add(a, b):
-    return a + b
+    return round(a + b, 1)
 
 
 def divide(a, b):
