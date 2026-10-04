@@ -1,5 +1,6 @@
 def add(a, b):
-    return a + b
+    """Return the sum of a and b."""
+    return int(a) + int(b)
 
 
 def divide(a, b):
