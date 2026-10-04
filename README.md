@@ -24,3 +24,7 @@ A FastAPI backend (`server/`) reads verdicts from the PR comments and streams li
     npm run dev                                 # UI on http://localhost:5173
 
 Or start both with `scripts/dev.sh`. To point the UI at a different API, set `VITE_API_BASE` (see `web/.env.example`).
+
+## Usage
+
+    from src.calculator import add, divide
