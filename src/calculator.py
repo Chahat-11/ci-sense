@@ -3,6 +3,6 @@ def add(a, b):
 
 
 def divide(a, b):
-    if b == 0:
+    if not b:
         raise ValueError("cannot divide by zero")
     return a / b
