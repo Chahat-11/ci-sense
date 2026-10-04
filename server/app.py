@@ -284,6 +284,16 @@ def deterministic_pick(candidates):
     return best["sha"] if best["score"] > 0 else None
 
 
+@app.get("/api/ablation")
+def ablation():
+    try:
+        data = json.loads((ROOT / "seeds" / "ablation.json").read_text())
+    except FileNotFoundError:
+        raise HTTPException(404, "No ablation results yet. Run scripts/ablation.py.")
+    data.pop("rows", None)
+    return data
+
+
 @app.get("/api/evaluation")
 def evaluation():
     try:

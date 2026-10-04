@@ -1,0 +1,610 @@
+{
+  "summary": {
+    "last_commit": {
+      "n": 8,
+      "correct": 6,
+      "wrong": 2,
+      "abstained": 0,
+      "accuracy": 0.75
+    },
+    "deterministic": {
+      "n": 8,
+      "correct": 6,
+      "wrong": 2,
+      "abstained": 0,
+      "accuracy": 0.75
+    },
+    "llm": {
+      "n": 24,
+      "correct": 24,
+      "wrong": 0,
+      "abstained": 0,
+      "accuracy": 1.0
+    },
+    "llm_sourcegraph": {
+      "n": 24,
+      "correct": 24,
+      "wrong": 0,
+      "abstained": 0,
+      "accuracy": 1.0
+    }
+  },
+  "rows": [
+    {
+      "case": "01",
+      "category": "import_error",
+      "variant": "last_commit",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": null,
+      "fallback": true
+    },
+    {
+      "case": "01",
+      "category": "import_error",
+      "variant": "deterministic",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": null,
+      "fallback": true
+    },
+    {
+      "case": "01",
+      "category": "import_error",
+      "variant": "llm",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": 0.99,
+      "fallback": false
+    },
+    {
+      "case": "01",
+      "category": "import_error",
+      "variant": "llm",
+      "rep": 1,
+      "outcome": "correct",
+      "confidence": 0.99,
+      "fallback": false
+    },
+    {
+      "case": "01",
+      "category": "import_error",
+      "variant": "llm",
+      "rep": 2,
+      "outcome": "correct",
+      "confidence": 0.99,
+      "fallback": false
+    },
+    {
+      "case": "01",
+      "category": "import_error",
+      "variant": "llm_sourcegraph",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": 0.98,
+      "fallback": false
+    },
+    {
+      "case": "01",
+      "category": "import_error",
+      "variant": "llm_sourcegraph",
+      "rep": 1,
+      "outcome": "correct",
+      "confidence": 0.99,
+      "fallback": false
+    },
+    {
+      "case": "01",
+      "category": "import_error",
+      "variant": "llm_sourcegraph",
+      "rep": 2,
+      "outcome": "correct",
+      "confidence": 0.99,
+      "fallback": false
+    },
+    {
+      "case": "02",
+      "category": "logic_bug",
+      "variant": "last_commit",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": null,
+      "fallback": true
+    },
+    {
+      "case": "02",
+      "category": "logic_bug",
+      "variant": "deterministic",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": null,
+      "fallback": true
+    },
+    {
+      "case": "02",
+      "category": "logic_bug",
+      "variant": "llm",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": 0.99,
+      "fallback": false
+    },
+    {
+      "case": "02",
+      "category": "logic_bug",
+      "variant": "llm",
+      "rep": 1,
+      "outcome": "correct",
+      "confidence": 0.99,
+      "fallback": false
+    },
+    {
+      "case": "02",
+      "category": "logic_bug",
+      "variant": "llm",
+      "rep": 2,
+      "outcome": "correct",
+      "confidence": 0.99,
+      "fallback": false
+    },
+    {
+      "case": "02",
+      "category": "logic_bug",
+      "variant": "llm_sourcegraph",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": 0.99,
+      "fallback": false
+    },
+    {
+      "case": "02",
+      "category": "logic_bug",
+      "variant": "llm_sourcegraph",
+      "rep": 1,
+      "outcome": "correct",
+      "confidence": 0.99,
+      "fallback": false
+    },
+    {
+      "case": "02",
+      "category": "logic_bug",
+      "variant": "llm_sourcegraph",
+      "rep": 2,
+      "outcome": "correct",
+      "confidence": 0.99,
+      "fallback": false
+    },
+    {
+      "case": "03",
+      "category": "test_bug",
+      "variant": "last_commit",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": null,
+      "fallback": true
+    },
+    {
+      "case": "03",
+      "category": "test_bug",
+      "variant": "deterministic",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": null,
+      "fallback": true
+    },
+    {
+      "case": "03",
+      "category": "test_bug",
+      "variant": "llm",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": 0.96,
+      "fallback": false
+    },
+    {
+      "case": "03",
+      "category": "test_bug",
+      "variant": "llm",
+      "rep": 1,
+      "outcome": "correct",
+      "confidence": 0.96,
+      "fallback": false
+    },
+    {
+      "case": "03",
+      "category": "test_bug",
+      "variant": "llm",
+      "rep": 2,
+      "outcome": "correct",
+      "confidence": 0.96,
+      "fallback": false
+    },
+    {
+      "case": "03",
+      "category": "test_bug",
+      "variant": "llm_sourcegraph",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": 0.96,
+      "fallback": false
+    },
+    {
+      "case": "03",
+      "category": "test_bug",
+      "variant": "llm_sourcegraph",
+      "rep": 1,
+      "outcome": "correct",
+      "confidence": 0.96,
+      "fallback": false
+    },
+    {
+      "case": "03",
+      "category": "test_bug",
+      "variant": "llm_sourcegraph",
+      "rep": 2,
+      "outcome": "correct",
+      "confidence": 0.96,
+      "fallback": false
+    },
+    {
+      "case": "04",
+      "category": "syntax_error",
+      "variant": "last_commit",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": null,
+      "fallback": true
+    },
+    {
+      "case": "04",
+      "category": "syntax_error",
+      "variant": "deterministic",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": null,
+      "fallback": true
+    },
+    {
+      "case": "04",
+      "category": "syntax_error",
+      "variant": "llm",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": 0.97,
+      "fallback": false
+    },
+    {
+      "case": "04",
+      "category": "syntax_error",
+      "variant": "llm",
+      "rep": 1,
+      "outcome": "correct",
+      "confidence": 0.98,
+      "fallback": false
+    },
+    {
+      "case": "04",
+      "category": "syntax_error",
+      "variant": "llm",
+      "rep": 2,
+      "outcome": "correct",
+      "confidence": 0.96,
+      "fallback": false
+    },
+    {
+      "case": "04",
+      "category": "syntax_error",
+      "variant": "llm_sourcegraph",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": 0.97,
+      "fallback": false
+    },
+    {
+      "case": "04",
+      "category": "syntax_error",
+      "variant": "llm_sourcegraph",
+      "rep": 1,
+      "outcome": "correct",
+      "confidence": 0.95,
+      "fallback": false
+    },
+    {
+      "case": "04",
+      "category": "syntax_error",
+      "variant": "llm_sourcegraph",
+      "rep": 2,
+      "outcome": "correct",
+      "confidence": 0.95,
+      "fallback": false
+    },
+    {
+      "case": "05",
+      "category": "dependency",
+      "variant": "last_commit",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": null,
+      "fallback": true
+    },
+    {
+      "case": "05",
+      "category": "dependency",
+      "variant": "deterministic",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": null,
+      "fallback": true
+    },
+    {
+      "case": "05",
+      "category": "dependency",
+      "variant": "llm",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": 0.98,
+      "fallback": false
+    },
+    {
+      "case": "05",
+      "category": "dependency",
+      "variant": "llm",
+      "rep": 1,
+      "outcome": "correct",
+      "confidence": 0.99,
+      "fallback": false
+    },
+    {
+      "case": "05",
+      "category": "dependency",
+      "variant": "llm",
+      "rep": 2,
+      "outcome": "correct",
+      "confidence": 0.99,
+      "fallback": false
+    },
+    {
+      "case": "05",
+      "category": "dependency",
+      "variant": "llm_sourcegraph",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": 0.99,
+      "fallback": false
+    },
+    {
+      "case": "05",
+      "category": "dependency",
+      "variant": "llm_sourcegraph",
+      "rep": 1,
+      "outcome": "correct",
+      "confidence": 0.98,
+      "fallback": false
+    },
+    {
+      "case": "05",
+      "category": "dependency",
+      "variant": "llm_sourcegraph",
+      "rep": 2,
+      "outcome": "correct",
+      "confidence": 0.99,
+      "fallback": false
+    },
+    {
+      "case": "06",
+      "category": "multi_commit_logic",
+      "variant": "last_commit",
+      "rep": 0,
+      "outcome": "wrong",
+      "confidence": null,
+      "fallback": true
+    },
+    {
+      "case": "06",
+      "category": "multi_commit_logic",
+      "variant": "deterministic",
+      "rep": 0,
+      "outcome": "wrong",
+      "confidence": null,
+      "fallback": true
+    },
+    {
+      "case": "06",
+      "category": "multi_commit_logic",
+      "variant": "llm",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": 0.99,
+      "fallback": false
+    },
+    {
+      "case": "06",
+      "category": "multi_commit_logic",
+      "variant": "llm",
+      "rep": 1,
+      "outcome": "correct",
+      "confidence": 0.99,
+      "fallback": false
+    },
+    {
+      "case": "06",
+      "category": "multi_commit_logic",
+      "variant": "llm",
+      "rep": 2,
+      "outcome": "correct",
+      "confidence": 0.96,
+      "fallback": false
+    },
+    {
+      "case": "06",
+      "category": "multi_commit_logic",
+      "variant": "llm_sourcegraph",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": 0.99,
+      "fallback": false
+    },
+    {
+      "case": "06",
+      "category": "multi_commit_logic",
+      "variant": "llm_sourcegraph",
+      "rep": 1,
+      "outcome": "correct",
+      "confidence": 0.99,
+      "fallback": false
+    },
+    {
+      "case": "06",
+      "category": "multi_commit_logic",
+      "variant": "llm_sourcegraph",
+      "rep": 2,
+      "outcome": "correct",
+      "confidence": 0.98,
+      "fallback": false
+    },
+    {
+      "case": "07",
+      "category": "multi_commit_rename",
+      "variant": "last_commit",
+      "rep": 0,
+      "outcome": "wrong",
+      "confidence": null,
+      "fallback": true
+    },
+    {
+      "case": "07",
+      "category": "multi_commit_rename",
+      "variant": "deterministic",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": null,
+      "fallback": true
+    },
+    {
+      "case": "07",
+      "category": "multi_commit_rename",
+      "variant": "llm",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": 0.96,
+      "fallback": false
+    },
+    {
+      "case": "07",
+      "category": "multi_commit_rename",
+      "variant": "llm",
+      "rep": 1,
+      "outcome": "correct",
+      "confidence": 0.96,
+      "fallback": false
+    },
+    {
+      "case": "07",
+      "category": "multi_commit_rename",
+      "variant": "llm",
+      "rep": 2,
+      "outcome": "correct",
+      "confidence": 0.96,
+      "fallback": false
+    },
+    {
+      "case": "07",
+      "category": "multi_commit_rename",
+      "variant": "llm_sourcegraph",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": 0.97,
+      "fallback": false
+    },
+    {
+      "case": "07",
+      "category": "multi_commit_rename",
+      "variant": "llm_sourcegraph",
+      "rep": 1,
+      "outcome": "correct",
+      "confidence": 0.97,
+      "fallback": false
+    },
+    {
+      "case": "07",
+      "category": "multi_commit_rename",
+      "variant": "llm_sourcegraph",
+      "rep": 2,
+      "outcome": "correct",
+      "confidence": 0.97,
+      "fallback": false
+    },
+    {
+      "case": "08",
+      "category": "multi_commit_behavior",
+      "variant": "last_commit",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": null,
+      "fallback": true
+    },
+    {
+      "case": "08",
+      "category": "multi_commit_behavior",
+      "variant": "deterministic",
+      "rep": 0,
+      "outcome": "wrong",
+      "confidence": null,
+      "fallback": true
+    },
+    {
+      "case": "08",
+      "category": "multi_commit_behavior",
+      "variant": "llm",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": 0.96,
+      "fallback": false
+    },
+    {
+      "case": "08",
+      "category": "multi_commit_behavior",
+      "variant": "llm",
+      "rep": 1,
+      "outcome": "correct",
+      "confidence": 0.96,
+      "fallback": false
+    },
+    {
+      "case": "08",
+      "category": "multi_commit_behavior",
+      "variant": "llm",
+      "rep": 2,
+      "outcome": "correct",
+      "confidence": 0.96,
+      "fallback": false
+    },
+    {
+      "case": "08",
+      "category": "multi_commit_behavior",
+      "variant": "llm_sourcegraph",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": 0.95,
+      "fallback": false
+    },
+    {
+      "case": "08",
+      "category": "multi_commit_behavior",
+      "variant": "llm_sourcegraph",
+      "rep": 1,
+      "outcome": "correct",
+      "confidence": 0.95,
+      "fallback": false
+    },
+    {
+      "case": "08",
+      "category": "multi_commit_behavior",
+      "variant": "llm_sourcegraph",
+      "rep": 2,
+      "outcome": "correct",
+      "confidence": 0.96,
+      "fallback": false
+    }
+  ]
+}
