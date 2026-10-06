@@ -13,32 +13,24 @@ Given a failed CI run and the commits in a PR, can an LLM-based triage agent ide
 - **Reproduce**: `cp .env.example .env`, fill keys, `pip install -r requirements.txt`, `python scripts/seed_failures.py`, `python scripts/evaluate.py --wait`, `python scripts/ablation.py --runs 1` (use `--runs 3` only with enough Groq quota: the free tier allows 200k tokens/day and 14 cases x 6 LLM runs exceeds it). Environment: Python 3.13, `groq` client, model `openai/gpt-oss-120b`, temperature 0. The ablation reports Wilson 95% intervals, multi-commit-only accuracy, per-category/per-case accuracy, and how often Sourcegraph returned context (`seeds/ablation.json`; also shown in the web UI Evaluation page).
 
 ## 3. Results
-Live pipeline on all 14 cases (`seeds/results.json`): **14/14 correct**, 14 LLM verdicts, 0 fallbacks, average confidence 0.969. This includes all six hard decoy cases (09-14).
+Live pipeline on all 14 cases (`seeds/results.json`): **14/14 correct**, 14 LLM verdicts, 0 fallbacks, average confidence 0.969.
 
-Ablation on the **original 8 cases** (LLM variants run 3x each, temperature 0). The 14-case ablation with confidence intervals and Sourcegraph-usage logging is implemented (`scripts/ablation.py`) but could not be completed because the Groq free-tier daily token limit (200k) was exhausted; rerun with `--runs 1` once quota resets and replace this table:
+Ablation on all 14 cases, one run per case (`seeds/ablation.json`, Wilson 95% intervals). Earlier repeated runs (3x per case, 8-case version) gave identical LLM verdicts each time.
 
-| Variant | Runs | Correct | Wrong | Abstained | Accuracy |
-|---|---|---|---|---|---|
-| last_commit (naive baseline) | 8 | 6 | 2 | 0 | 75% |
-| deterministic scoring | 8 | 6 | 2 | 0 | 75% |
-| llm | 24 | 24 | 0 | 0 | 100% |
-| llm_sourcegraph | 24 | 24 | 0 | 0 | 100% |
-
-On the three multi-commit cases (06-08), the only ones where choosing among commits matters:
-
-| Variant | 06 | 07 | 08 | Correct |
+| Variant | Correct | Accuracy | 95% CI | Multi-commit only (9 cases) |
 |---|---|---|---|---|
-| last_commit | wrong | wrong | correct | 1/3 |
-| deterministic | wrong | correct | wrong | 1/3 |
-| llm | correct | correct | correct | 3/3 |
-| llm_sourcegraph | correct | correct | correct | 3/3 |
+| last_commit (naive baseline) | 7/14 | 50% | 27-73% | 2/9 |
+| deterministic scoring | 8/14 | 57% | 33-79% | 3/9 |
+| llm | 14/14 | 100% | 79-100% | 9/9 |
+| llm_sourcegraph | 14/14 | 100% | 79-100% | 9/9 |
+
+Cases each baseline got wrong: last_commit 06, 07, 09, 10, 11, 12, 14; deterministic 06, 08, 09, 10, 11, 14. Sourcegraph returned context in 4 of 14 runs (cases 01, 05, 07, 11).
 
 ## 4. Interpretation
-- **H1 supported on this data.** Both baselines make 2 errors, all in the multi-commit cases, while the LLM was right in all 24 runs. The two baselines fail on different cases: last_commit misses 06 and 07 because the guilty commit is not the newest; deterministic scoring misses 06 and 08, where a later commit touching the test file or sharing identifiers with the error out-scores the real culprit (e.g. 06: the unrelated "Add divide test" commit scored 5 vs 3 for the guilty commit). The LLM resolves these by reasoning about the diff against the failing assertion (`4 == 5` from `add(2, 3)` points to the `a + a` change).
-- **LLM runs were stable:** 3 repetitions per case gave identical verdicts (no run-to-run variance at temperature 0).
-- **H2 not supported / not testable here.** llm_sourcegraph scored the same as llm. The LLM already reaches 100%, so there is no headroom for extra context to help. Also, the live Sourcegraph retrieval (public requirements files and public error-message matches) was only verified manually on example queries; the ablation does not log whether context was actually retrieved for each case, so we cannot claim the context was used or useful.
-- Single-commit cases (01-05) are trivially correct for every method, so overall accuracy overstates the gap; the 3-case table is the informative one.
-- The earlier live run (`seeds/results.json`, 8/8, average confidence 0.968) agrees with the ablation LLM results.
+- **H1 supported.** The LLM is right on every case, including all decoys; both baselines are right on only about half. The baselines fail for different reasons: last_commit fails whenever the guilty commit is not the newest; deterministic scoring is lured by surface overlap (e.g. in 06 an unrelated test-file commit scored 5 vs 3 for the guilty one). The LLM reads the diff against the failing assertion (`4 == 5` from `add(2, 3)` points to the `a + a` change).
+- **H2 not supported (no measurable effect).** llm_sourcegraph equals llm. Context was retrieved in only 4 of 14 runs and the LLM was already at ceiling, so there was no headroom to show benefit.
+- Single-commit cases (01-05) are trivially correct for every method; the multi-commit column is the informative one.
+- Intervals are wide (n=14): 14/14 is consistent with a true accuracy as low as about 79%.
 
 ## 5. Limitations and failure analysis
 - Small (n=14), synthetic, single tiny repo (a calculator). Even with six decoy cases the LLM made no errors, so we have no LLM failure cases to analyse and the benchmark may still be too easy; with n=14 a 14/14 result has a 95% Wilson interval of roughly 78-100%, so it cannot establish a true accuracy of 100%.
