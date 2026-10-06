@@ -264,8 +264,8 @@ interface AblationStats {
 }
 interface Ablation {
   summary: Record<string, AblationStats>;
-  multi_commit_only: Record<string, AblationStats>;
-  sourcegraph_usage: { runs: number; runs_with_context: number; cases_with_context: string[] };
+  multi_commit_only?: Record<string, AblationStats>;
+  sourcegraph_usage?: { runs: number; runs_with_context: number; cases_with_context: string[] };
 }
 
 const VARIANT_LABELS: Record<string, string> = {
@@ -280,11 +280,12 @@ function AblationCard() {
   if (!data) return null;
   const range = (s: AblationStats) => (s.ci95 ? `${pct(s.ci95[0])} – ${pct(s.ci95[1])}` : "—");
   const usage = data.sourcegraph_usage;
+  const multi = (v: string) => data.multi_commit_only?.[v];
   return (
     <Card className="mt-4">
       <CardHeader
         title="Ablation and baselines"
-        meta={`Sourcegraph context retrieved in ${usage.runs_with_context} of ${usage.runs} runs`}
+        meta={usage ? `Sourcegraph context retrieved in ${usage.runs_with_context} of ${usage.runs} runs` : "Sourcegraph usage not logged in this run"}
       />
       <table className="w-full text-xs">
         <thead>
@@ -305,8 +306,7 @@ function AblationCard() {
                 </td>
                 <td className="px-4 py-2.5 font-mono text-fg-muted">{range(data.summary[v])}</td>
                 <td className="px-4 py-2.5 font-mono">
-                  {pct(data.multi_commit_only[v]?.accuracy ?? null)} ({data.multi_commit_only[v]?.correct}/
-                  {data.multi_commit_only[v]?.n})
+                  {multi(v) ? `${pct(multi(v)!.accuracy)} (${multi(v)!.correct}/${multi(v)!.n})` : "—"}
                 </td>
               </tr>
             ) : null,
