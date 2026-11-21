@@ -2,18 +2,18 @@ import { Brain, FileSearch, GitCompare, MessageSquare, Scale, ShieldCheck, Zap }
 import { Card, PageHeader } from "../components/ui";
 
 const STAGES = [
-  { icon: Zap, name: "Trigger", line: "A failed tests run fires workflow_run; triage starts only when the run failed." },
-  { icon: FileSearch, name: "Distil", line: "Download the logs, strip timestamps and cleanup noise, keep windows around errors." },
-  { icon: GitCompare, name: "Candidates", line: "PR runs: base branch to failing sha. Main: every commit since the last green run." },
-  { icon: Scale, name: "Score", line: "Deterministic signals: file named in the error, shared identifiers, config changes." },
-  { icon: Brain, name: "LLM verdict", line: "The model picks the responsible commit or abstains; its answer must be a candidate." },
-  { icon: MessageSquare, name: "Post", line: "Verdict goes to the PR that introduced the commit, with evidence and hidden data." },
+  { icon: Zap, name: "Trigger", line: "A test run fails on GitHub, and CI-Sense wakes up. Passing runs are ignored." },
+  { icon: FileSearch, name: "Read logs", line: "It downloads the logs and trims the noise, keeping just the lines around each error." },
+  { icon: GitCompare, name: "Suspects", line: "It lists the commits that could be to blame: everything new since the last passing run." },
+  { icon: Scale, name: "Score", line: "Each suspect gets a score from clear clues, like a file named in the error." },
+  { icon: Brain, name: "AI verdict", line: "The AI picks the most likely commit, or says it is not sure. It can only choose from the suspects." },
+  { icon: MessageSquare, name: "Post", line: "The verdict is posted on the pull request that introduced the commit, with the evidence." },
 ];
 
 const GUARANTEES = [
-  { title: "Honest fallback", body: "If the LLM is unavailable the top-scored commit is used, and nobody is blamed when every score is zero." },
-  { title: "Validated answers", body: "A verdict naming a sha outside the candidate set is rejected rather than trusted." },
-  { title: "No leaked secrets", body: "Keys and tokens are scrubbed by pattern from logs and from every comment before it is posted." },
+  { title: "Honest fallback", body: "If the AI is unavailable, the highest-scoring commit is used. If nothing scores, nobody is blamed." },
+  { title: "Validated answers", body: "An answer naming a commit that was never a suspect is thrown out, not trusted." },
+  { title: "No leaked secrets", body: "Keys and tokens are scrubbed from the logs and from every comment before it is posted." },
 ];
 
 export default function HowItWorks() {
@@ -21,11 +21,11 @@ export default function HowItWorks() {
     <>
       <PageHeader
         title="How it works"
-        description="From a red CI run to a verdict on the pull request that caused it, in six stages."
+        description="From a failed test run to a verdict on the pull request that caused it, in six simple steps."
       />
 
       <Card className="px-6 py-8">
-        <ol className="grid grid-cols-6 gap-0">
+        <ol className="grid gap-6 sm:grid-cols-2 lg:grid-cols-6 lg:gap-0">
           {STAGES.map(({ icon: Icon, name, line }, i) => (
             <li key={name} className="animate-rise relative flex flex-col px-3" style={{ animationDelay: `${i * 70}ms` }}>
               <div className="relative flex items-center">
@@ -39,7 +39,7 @@ export default function HowItWorks() {
                   </div>
                 )}
               </div>
-              <div className="mt-4 font-mono text-[11px] text-fg-subtle">0{i + 1}</div>
+              <div className="mt-4 text-xs font-semibold text-accent">Step {i + 1}</div>
               <div className="mt-1 text-sm font-medium">{name}</div>
               <p className="mt-1.5 text-xs leading-relaxed text-fg-muted">{line}</p>
             </li>
@@ -47,7 +47,7 @@ export default function HowItWorks() {
         </ol>
       </Card>
 
-      <div className="mt-4 grid grid-cols-3 gap-4">
+      <div className="mt-4 grid gap-4 md:grid-cols-3">
         {GUARANTEES.map((g) => (
           <Card key={g.title} className="px-5 py-4">
             <div className="flex items-center gap-2 text-[13px] font-medium">

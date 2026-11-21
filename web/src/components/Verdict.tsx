@@ -16,7 +16,7 @@ export function VerdictCard({ result }: { result: TriageResult }) {
         <div className="flex min-w-0 flex-1 items-center gap-3">
           {responsible ? (
             <>
-              <span className="shrink-0 text-xs font-medium uppercase tracking-wider text-fg-subtle">Responsible</span>
+              <span className="shrink-0 text-xs font-medium text-fg-subtle">Responsible</span>
               <span className="shrink-0">
                 <ShaChip sha={responsible.sha} tone="bad" />
               </span>
@@ -77,7 +77,7 @@ export function VerdictCard({ result }: { result: TriageResult }) {
 function Field({ label, value }: { label: string; value?: string | null }) {
   return (
     <div className="min-w-0 bg-panel px-5 py-4">
-      <div className="mb-1.5 text-xs font-medium uppercase tracking-wider text-fg-subtle">{label}</div>
+      <div className="mb-1.5 text-xs font-medium text-fg-subtle">{label}</div>
       <div className="text-sm leading-relaxed text-fg">{value ? <RichText text={value} /> : <span className="text-fg-subtle">—</span>}</div>
     </div>
   );
@@ -230,7 +230,7 @@ export function LogViewer({ text, title = "Distilled error", maxHeight = "max-h-
               >
                 {i + 1}
               </span>
-              <span className={cx("whitespace-pre pl-4 pr-4", ERROR_LINE.test(line) ? "text-[#ffb4b6]" : "text-fg-muted")}>{line || " "}</span>
+              <span className={cx("whitespace-pre pl-4 pr-4", ERROR_LINE.test(line) ? "text-bad" : "text-fg-muted")}>{line || " "}</span>
             </div>
           ),
         )}

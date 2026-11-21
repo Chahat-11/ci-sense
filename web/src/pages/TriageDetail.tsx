@@ -82,7 +82,7 @@ function MainFailurePanel({ triage: t }: { triage: TriageDetail }) {
   return (
     <Card className="animate-rise grid gap-px overflow-hidden bg-line md:grid-cols-3">
       <div className="bg-panel px-5 py-4">
-        <div className="mb-2 flex items-center gap-1.5 text-xs font-medium uppercase tracking-wider text-fg-subtle">
+        <div className="mb-2 flex items-center gap-1.5 text-xs font-medium text-fg-subtle">
           <GitBranch size={12} />
           Failure on main
         </div>
@@ -96,7 +96,7 @@ function MainFailurePanel({ triage: t }: { triage: TriageDetail }) {
         </div>
       </div>
       <div className="bg-panel px-5 py-4">
-        <div className="mb-2 text-xs font-medium uppercase tracking-wider text-fg-subtle">Attributed to</div>
+        <div className="mb-2 text-xs font-medium text-fg-subtle">Attributed to</div>
         {r.guilty_pr ? (
           <a href={prUrl(t.repo, r.guilty_pr)} target="_blank" rel="noreferrer" className="group block">
             <div className="text-sm font-medium text-fg group-hover:underline">PR #{r.guilty_pr}</div>
@@ -109,7 +109,7 @@ function MainFailurePanel({ triage: t }: { triage: TriageDetail }) {
         )}
       </div>
       <div className="bg-panel px-5 py-4">
-        <div className="mb-2 text-xs font-medium uppercase tracking-wider text-fg-subtle">“Not your fault” note</div>
+        <div className="mb-2 text-xs font-medium text-fg-subtle">“Not your fault” note</div>
         {t.notes.length ? (
           t.notes.map((n) => (
             <a key={n.comment_url} href={n.comment_url} target="_blank" rel="noreferrer" className="group block">

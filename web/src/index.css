@@ -1,22 +1,22 @@
 @import "tailwindcss";
 
 @theme {
-  --color-bg: #09090b;
-  --color-panel: #0f0f12;
-  --color-raised: #15151a;
-  --color-line: #1f1f26;
-  --color-line-strong: #2c2c35;
-  --color-fg: #ececf1;
-  --color-fg-muted: #a1a1ad;
-  --color-fg-subtle: #6c6c78;
-  --color-accent: #7c83ff;
-  --color-accent-soft: #7c83ff1f;
-  --color-ok: #3ecf8e;
-  --color-bad: #f2555a;
-  --color-warn: #f5a524;
+  --color-bg: #f5f1e8;
+  --color-panel: #fffdf8;
+  --color-raised: #efe9dc;
+  --color-line: #e5dece;
+  --color-line-strong: #d2c9b4;
+  --color-fg: #27231d;
+  --color-fg-muted: #655e51;
+  --color-fg-subtle: #8f8777;
+  --color-accent: #1d6b73;
+  --color-accent-soft: #1d6b7319;
+  --color-ok: #2f8a57;
+  --color-bad: #c0392b;
+  --color-warn: #b26a00;
 
-  --font-sans: "Geist", ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-sans: "Figtree", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
   --animate-fade-in: fade-in 240ms ease-out both;
   --animate-rise: rise 320ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
@@ -37,8 +37,25 @@ body {
   color: var(--color-fg);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
-  font-feature-settings: "ss01", "cv11";
 }
+
+:root[data-theme="dark"] {
+  --color-bg: #1a1814;
+  --color-panel: #221f1a;
+  --color-raised: #2c2822;
+  --color-line: #332f28;
+  --color-line-strong: #494338;
+  --color-fg: #f0ebe0;
+  --color-fg-muted: #b3ab9b;
+  --color-fg-subtle: #8a8272;
+  --color-accent: #5cc0c9;
+  --color-accent-soft: #5cc0c91f;
+  --color-ok: #5cc088;
+  --color-bad: #ee7b6e;
+  --color-warn: #e0a24a;
+  color-scheme: dark;
+}
+:root { color-scheme: light; }
 
 ::selection {
   background: var(--color-accent-soft);

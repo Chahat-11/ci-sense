@@ -106,11 +106,11 @@ export function ConfidenceBar({ value, width = "w-20" }: { value: number | null 
 export function SourceBadge({ fallback }: { fallback: boolean }) {
   return fallback ? (
     <span className="inline-flex items-center rounded-md border border-warn/25 bg-warn/10 px-1.5 py-0.5 text-[11px] font-medium text-warn">
-      Fallback
+      Rules only
     </span>
   ) : (
     <span className="inline-flex items-center rounded-md border border-accent/25 bg-accent-soft px-1.5 py-0.5 text-[11px] font-medium text-accent">
-      LLM
+      AI
     </span>
   );
 }

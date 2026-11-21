@@ -259,7 +259,7 @@ function Step({ index, step, state, now, last }: { index: number; step: (typeof 
           className={cx(
             "relative flex h-8 w-8 items-center justify-center rounded-full border transition-all duration-300",
             state.status === "pending" && "border-line-strong bg-panel text-fg-subtle",
-            running && "border-accent bg-accent-soft text-accent shadow-[0_0_18px] shadow-accent/30",
+            running && "border-accent bg-accent-soft text-accent",
             state.status === "done" && "border-ok/50 bg-ok/10 text-ok",
             state.status === "error" && "border-bad/50 bg-bad/10 text-bad",
           )}
@@ -320,7 +320,7 @@ function StagePreview({ stage, preview }: { stage: StageName; preview: Record<st
         </PreviewLine>
         <div className="mt-2 overflow-hidden rounded-lg border border-line bg-bg px-3 py-2 font-mono text-[11px] leading-[1.7]">
           {lines.map((l, i) => (
-            <div key={i} className={cx("truncate whitespace-pre", ERROR_LINE.test(l) ? "text-[#ffb4b6]" : "text-fg-subtle")}>
+            <div key={i} className={cx("truncate whitespace-pre", ERROR_LINE.test(l) ? "text-bad" : "text-fg-subtle")}>
               {l}
             </div>
           ))}
