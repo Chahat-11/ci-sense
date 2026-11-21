@@ -29,6 +29,7 @@ commit. Decoy commits (docstrings, comments, behaviour-preserving refactors, pas
 valid pins) favour the guilty function. Each case is kept only if the commits before the guilty one pass,
 the head fails, and `git revert` of the guilty commit alone makes the head pass again.
 LLM verdicts are cached in `bench/runs.jsonl`, so a run stopped by Groq's daily limit resumes on rerun.
+Full explanation for the team: [bench/README.md](bench/README.md).
 
 ### Real-repo cases
 
