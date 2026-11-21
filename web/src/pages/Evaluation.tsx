@@ -98,7 +98,7 @@ function EvaluationBody({ data }: { data: Evaluation }) {
           title="Cases"
           meta={`${multi.length} multi-commit · ${data.cases.length - multi.length} single-commit`}
         />
-        <div className="grid grid-cols-[minmax(0,1fr)_150px_104px_116px_116px_124px_64px_96px] gap-3 border-b border-line px-4 py-2 text-[11px] font-medium uppercase tracking-wider text-fg-subtle">
+        <div className="grid grid-cols-[minmax(0,1fr)_150px_104px_116px_116px_124px_64px_96px] gap-3 border-b border-line px-4 py-2 text-[11px] font-medium text-fg-subtle">
           <span>Case</span>
           <span>Category</span>
           <span>Culprit</span>
@@ -172,19 +172,19 @@ function Headline({ label, value, detail, accent }: { label: string; value: stri
 
 function AccuracyChart({ deterministic, llm }: { deterministic: number; llm: number }) {
   const rows = [
-    { name: "Scoring only", value: Math.round(deterministic * 100), fill: "#3a3a45" },
-    { name: "With LLM", value: Math.round(llm * 100), fill: "#7c83ff" },
+    { name: "Scoring only", value: Math.round(deterministic * 100), fill: "var(--color-line-strong)" },
+    { name: "With LLM", value: Math.round(llm * 100), fill: "var(--color-accent)" },
   ];
   return (
     <ResponsiveContainer width="100%" height="100%">
       <BarChart data={rows} layout="vertical" margin={{ top: 0, right: 44, bottom: 0, left: 8 }} barCategoryGap={14}>
         <XAxis type="number" domain={[0, 100]} hide />
-        <YAxis type="category" dataKey="name" tick={{ fill: "#a1a1ad", fontSize: 12 }} axisLine={false} tickLine={false} width={92} />
-        <Bar dataKey="value" radius={[0, 4, 4, 0]} background={{ fill: "#15151a", radius: 4 }} animationDuration={700}>
+        <YAxis type="category" dataKey="name" tick={{ fill: "var(--color-fg-muted)", fontSize: 12 }} axisLine={false} tickLine={false} width={92} />
+        <Bar dataKey="value" radius={[0, 4, 4, 0]} background={{ fill: "var(--color-raised)", radius: 4 }} animationDuration={700}>
           {rows.map((r) => (
             <Cell key={r.name} fill={r.fill} />
           ))}
-          <LabelList dataKey="value" position="right" formatter={(v) => `${v}%`} fill="#ececf1" fontSize={12} fontFamily="Geist Mono" />
+          <LabelList dataKey="value" position="right" formatter={(v) => `${v}%`} fill="var(--color-fg)" fontSize={12} fontFamily="IBM Plex Mono" />
         </Bar>
       </BarChart>
     </ResponsiveContainer>

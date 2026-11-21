@@ -1,10 +1,12 @@
+import { useMemo, useState } from "react";
 import { Link } from "react-router";
 import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { Activity, ChevronRight, GitBranch, Inbox } from "lucide-react";
+import { Activity, ChevronRight, GitBranch, Inbox, Search } from "lucide-react";
 import { useApi } from "../api";
 import type { Stats, TriageSummary } from "../types";
 import { pct, timeAgo } from "../format";
 import {
+  cx,
   Card,
   CardHeader,
   ConfidenceBar,
@@ -22,6 +24,18 @@ export default function Overview() {
   const meta = useMeta();
   const stats = useApi<Stats>("/api/stats");
   const triages = useApi<TriageSummary[]>("/api/triages");
+  const [query, setQuery] = useState("");
+  const [filter, setFilter] = useState<"all" | "blamed" | "unsure">("all");
+
+  const shown = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return (triages.data ?? []).filter((t) => {
+      if (filter === "blamed" && !t.responsible_commit) return false;
+      if (filter === "unsure" && t.responsible_commit) return false;
+      if (!q) return true;
+      return [t.pr_title, t.what_failed, t.responsible_commit, `#${t.pr_number}`].some((v) => v?.toLowerCase().includes(q));
+    });
+  }, [triages.data, query, filter]);
 
   return (
     <>
@@ -29,8 +43,8 @@ export default function Overview() {
         title="Overview"
         description={
           <>
-            Every CI failure CI-Sense has triaged{meta ? <> in <span className="font-mono text-fg">{meta.repo}</span></> : null}, read
-            from the structured data attached to its PR comments.
+            Every failed test run CI-Sense has looked at{meta ? <> in <span className="font-mono text-fg">{meta.repo}</span></> : null}, and the
+            commit it thinks caused it.
           </>
         }
       />
@@ -57,8 +71,39 @@ export default function Overview() {
       <Card className="mt-4">
         <CardHeader
           title="Recent triages"
-          meta={triages.data ? `${triages.data.length} verdicts` : undefined}
+          meta={triages.data ? `${shown.length} of ${triages.data.length}` : undefined}
         />
+        {triages.data && triages.data.length > 0 && (
+          <div className="flex flex-wrap items-center gap-2 border-b border-line px-4 py-2.5">
+            <label className="relative min-w-[200px] flex-1">
+              <Search size={14} className="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 text-fg-subtle" />
+              <input
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Search by pull request, error or commit"
+                className="w-full rounded-lg border border-line-strong bg-bg py-1.5 pl-8 pr-3 text-sm text-fg outline-none transition-colors placeholder:text-fg-subtle focus:border-accent"
+              />
+            </label>
+            <div className="flex gap-1">
+              {([
+                ["all", "All"],
+                ["blamed", "Commit found"],
+                ["unsure", "Not sure"],
+              ] as const).map(([k, label]) => (
+                <button
+                  key={k}
+                  onClick={() => setFilter(k)}
+                  className={cx(
+                    "rounded-full border px-3 py-1 text-xs font-medium transition-colors",
+                    filter === k ? "border-accent bg-accent-soft text-accent" : "border-line-strong text-fg-muted hover:bg-raised",
+                  )}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
         {triages.error ? (
           <div className="p-4">
             <ErrorState message={triages.error} onRetry={triages.reload} />
@@ -69,19 +114,25 @@ export default function Overview() {
           <EmptyState
             icon={<Inbox size={18} />}
             title="No triages yet"
-            description="When a tests run fails, CI-Sense posts a verdict on the PR and it will appear here."
+            description="When a test run fails, CI-Sense posts a verdict on the PR and it will appear here."
           />
         ) : (
-          <div>
-            <div className="grid grid-cols-[minmax(0,1fr)_104px_132px_72px_72px_16px] gap-4 border-b border-line px-4 py-2 text-[11px] font-medium uppercase tracking-wider text-fg-subtle">
-              <span>Pull request</span>
-              <span>Commit</span>
-              <span>Confidence</span>
-              <span>Source</span>
-              <span className="text-right">When</span>
-              <span />
+          <div className="overflow-x-auto">
+            <div className="min-w-[720px]">
+              <div className="grid grid-cols-[minmax(0,1fr)_104px_132px_72px_72px_16px] gap-4 border-b border-line px-4 py-2 text-xs font-medium text-fg-subtle">
+                <span>Pull request</span>
+                <span>Suspect commit</span>
+                <span>How sure</span>
+                <span>Made by</span>
+                <span className="text-right">When</span>
+                <span />
+              </div>
+              {shown.length === 0 ? (
+                <EmptyState icon={<Search size={18} />} title="Nothing matches" description="Try a different search or filter." />
+              ) : (
+                shown.map((t, i) => <FeedRow key={t.id} triage={t} index={i} />)
+              )}
             </div>
-            {triages.data?.map((t, i) => <FeedRow key={t.id} triage={t} index={i} />)}
           </div>
         )}
       </Card>
@@ -92,20 +143,20 @@ export default function Overview() {
 function StatCards({ stats }: { stats: Stats | null }) {
   const cards = stats
     ? [
-        { label: "Triaged", value: String(stats.triaged), sub: "failed runs analysed" },
-        { label: "Attributed", value: String(stats.attributed), sub: `${pct(stats.triaged ? stats.attributed / stats.triaged : null)} of triages` },
-        { label: "Abstained", value: String(stats.abstained), sub: "no confident culprit" },
-        { label: "LLM share", value: pct(stats.triaged ? stats.llm / stats.triaged : null), sub: `${stats.fallback} fallback verdicts` },
-        { label: "Avg confidence", value: pct(stats.avg_confidence), sub: "across LLM verdicts" },
+        { label: "Runs checked", value: String(stats.triaged), sub: "failed runs analysed" },
+        { label: "Culprit found", value: String(stats.attributed), sub: `${pct(stats.triaged ? stats.attributed / stats.triaged : null)} of triages` },
+        { label: "Not sure", value: String(stats.abstained), sub: "no confident culprit" },
+        { label: "AI-assisted", value: pct(stats.triaged ? stats.llm / stats.triaged : null), sub: `${stats.fallback} fallback verdicts` },
+        { label: "Average certainty", value: pct(stats.avg_confidence), sub: "across LLM verdicts" },
       ]
     : null;
   return (
-    <div className="grid grid-cols-5 gap-3">
+    <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
       {cards
         ? cards.map((c, i) => (
             <Card key={c.label} className="animate-rise px-4 py-4" style={{ animationDelay: `${i * 40}ms` }}>
               <div className="text-xs font-medium text-fg-muted">{c.label}</div>
-              <div className="tabular mt-2 text-[26px] font-semibold leading-none tracking-tight">{c.value}</div>
+              <div className="tabular mt-2 text-[28px] font-bold leading-none tracking-tight">{c.value}</div>
               <div className="mt-2 text-xs text-fg-subtle">{c.sub}</div>
             </Card>
           ))
@@ -128,16 +179,16 @@ function TriagesChart({ data }: { data: Stats["per_day"] }) {
   return (
     <ResponsiveContainer width="100%" height="100%">
       <BarChart data={rows} margin={{ top: 4, right: 8, bottom: 0, left: 0 }} barCategoryGap="28%">
-        <XAxis dataKey="label" tick={{ fill: "#6c6c78", fontSize: 11 }} axisLine={false} tickLine={false} interval="preserveStartEnd" minTickGap={24} />
-        <YAxis allowDecimals={false} tick={{ fill: "#6c6c78", fontSize: 11 }} axisLine={false} tickLine={false} width={28} />
+        <XAxis dataKey="label" tick={{ fill: "var(--color-fg-subtle)", fontSize: 11 }} axisLine={false} tickLine={false} interval="preserveStartEnd" minTickGap={24} />
+        <YAxis allowDecimals={false} tick={{ fill: "var(--color-fg-subtle)", fontSize: 11 }} axisLine={false} tickLine={false} width={28} />
         <Tooltip
-          cursor={{ fill: "#15151a" }}
-          contentStyle={{ background: "#15151a", border: "1px solid #2c2c35", borderRadius: 8, fontSize: 12 }}
-          labelStyle={{ color: "#a1a1ad" }}
-          itemStyle={{ color: "#ececf1" }}
+          cursor={{ fill: "var(--color-raised)" }}
+          contentStyle={{ background: "var(--color-raised)", border: "1px solid var(--color-line-strong)", borderRadius: 8, fontSize: 12 }}
+          labelStyle={{ color: "var(--color-fg-muted)" }}
+          itemStyle={{ color: "var(--color-fg)" }}
           formatter={(v) => [v, "Triages"]}
         />
-        <Bar dataKey="count" fill="#7c83ff" radius={[3, 3, 0, 0]} maxBarSize={28} animationDuration={600} background={{ fill: "#111115", radius: 3 }} />
+        <Bar dataKey="count" fill="var(--color-accent)" radius={[3, 3, 0, 0]} maxBarSize={28} animationDuration={600} background={{ fill: "var(--color-raised)", radius: 3 }} />
       </BarChart>
     </ResponsiveContainer>
   );
