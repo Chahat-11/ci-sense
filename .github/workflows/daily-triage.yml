@@ -1,0 +1,58 @@
+name: daily-triage
+
+# Re-triages a random handful of the failing seed PRs once a day, so the
+# Overview chart shows real day-to-day activity. Stops after STOP_AFTER.
+on:
+  schedule:
+    - cron: "30 9 * * *" # 09:30 UTC daily
+  workflow_dispatch:
+    inputs:
+      count:
+        description: "How many seed runs to triage (blank = random 1-6)"
+        required: false
+
+env:
+  STOP_AFTER: "2026-11-28"
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Stop after the demo week
+        id: guard
+        run: |
+          if [ "$(date -u +%F)" \> "$STOP_AFTER" ] && [ "${{ github.event_name }}" = "schedule" ]; then
+            echo "Past $STOP_AFTER; skipping." && echo "skip=true" >> "$GITHUB_OUTPUT"
+          fi
+      - uses: actions/checkout@v4
+        if: steps.guard.outputs.skip != 'true'
+      - uses: actions/setup-python@v5
+        if: steps.guard.outputs.skip != 'true'
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements.txt
+        if: steps.guard.outputs.skip != 'true'
+      - name: Triage a random set of failing seed runs
+        if: steps.guard.outputs.skip != 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          SRC_ACCESS_TOKEN: ${{ secrets.SRC_ACCESS_TOKEN }}
+          COUNT: ${{ github.event.inputs.count }}
+        run: |
+          count="${COUNT:-$(( RANDOM % 6 + 1 ))}"
+          # latest failed tests run for each open seed/* branch
+          gh api "repos/$GITHUB_REPOSITORY/actions/workflows/test.yml/runs?status=failure&per_page=100" \
+            --jq '.workflow_runs[] | select(.head_branch | startswith("seed/")) | "\(.head_branch) \(.id)"' \
+            | awk '!seen[$1]++ {print $2}' | shuf | head -n "$count" > runs.txt
+          echo "Triaging $(wc -l < runs.txt) run(s) today"
+          while read -r run_id; do
+            echo "::group::run $run_id"
+            RUN_ID="$run_id" python agent/triage.py || echo "run $run_id failed, continuing"
+            echo "::endgroup::"
+          done < runs.txt
