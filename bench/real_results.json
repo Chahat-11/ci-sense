@@ -1,0 +1,838 @@
+{
+  "model": "openai/gpt-oss-120b",
+  "cases": 17,
+  "incomplete": "Groq call failed on attempt 3: RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01kgedt19vevw8nd1wgzwetg81` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199174, Requested 1537. Please try again in",
+  "overall": {
+    "last_commit": {
+      "n": 17,
+      "correct": 14,
+      "wrong": 3,
+      "abstained": 0,
+      "accuracy": 0.824,
+      "ci95": [
+        0.59,
+        0.938
+      ],
+      "avg_conf_correct": null,
+      "avg_conf_wrong": null,
+      "fallback": 0
+    },
+    "deterministic": {
+      "n": 17,
+      "correct": 15,
+      "wrong": 1,
+      "abstained": 1,
+      "accuracy": 0.882,
+      "ci95": [
+        0.657,
+        0.967
+      ],
+      "avg_conf_correct": null,
+      "avg_conf_wrong": null,
+      "fallback": 17
+    },
+    "llm": {
+      "n": 3,
+      "correct": 2,
+      "wrong": 0,
+      "abstained": 1,
+      "accuracy": 0.667,
+      "ci95": [
+        0.208,
+        0.939
+      ],
+      "avg_conf_correct": 0.945,
+      "avg_conf_wrong": null,
+      "fallback": 0
+    }
+  },
+  "by_category": {
+    "last_commit": {
+      "real": {
+        "n": 17,
+        "correct": 14,
+        "wrong": 3,
+        "abstained": 0,
+        "accuracy": 0.824,
+        "ci95": [
+          0.59,
+          0.938
+        ],
+        "avg_conf_correct": null,
+        "avg_conf_wrong": null,
+        "fallback": 0
+      }
+    },
+    "deterministic": {
+      "real": {
+        "n": 17,
+        "correct": 15,
+        "wrong": 1,
+        "abstained": 1,
+        "accuracy": 0.882,
+        "ci95": [
+          0.657,
+          0.967
+        ],
+        "avg_conf_correct": null,
+        "avg_conf_wrong": null,
+        "fallback": 17
+      }
+    },
+    "llm": {
+      "real": {
+        "n": 3,
+        "correct": 2,
+        "wrong": 0,
+        "abstained": 1,
+        "accuracy": 0.667,
+        "ci95": [
+          0.208,
+          0.939
+        ],
+        "avg_conf_correct": 0.945,
+        "avg_conf_wrong": null,
+        "fallback": 0
+      }
+    }
+  },
+  "by_difficulty": {
+    "last_commit": {
+      "easy": {
+        "n": 13,
+        "correct": 13,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.772,
+          1
+        ],
+        "avg_conf_correct": null,
+        "avg_conf_wrong": null,
+        "fallback": 0
+      },
+      "multi": {
+        "n": 4,
+        "correct": 1,
+        "wrong": 3,
+        "abstained": 0,
+        "accuracy": 0.25,
+        "ci95": [
+          0.046,
+          0.699
+        ],
+        "avg_conf_correct": null,
+        "avg_conf_wrong": null,
+        "fallback": 0
+      }
+    },
+    "deterministic": {
+      "easy": {
+        "n": 13,
+        "correct": 12,
+        "wrong": 0,
+        "abstained": 1,
+        "accuracy": 0.923,
+        "ci95": [
+          0.667,
+          0.986
+        ],
+        "avg_conf_correct": null,
+        "avg_conf_wrong": null,
+        "fallback": 13
+      },
+      "multi": {
+        "n": 4,
+        "correct": 3,
+        "wrong": 1,
+        "abstained": 0,
+        "accuracy": 0.75,
+        "ci95": [
+          0.301,
+          0.954
+        ],
+        "avg_conf_correct": null,
+        "avg_conf_wrong": null,
+        "fallback": 4
+      }
+    },
+    "llm": {
+      "easy": {
+        "n": 2,
+        "correct": 2,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.342,
+          1
+        ],
+        "avg_conf_correct": 0.945,
+        "avg_conf_wrong": null,
+        "fallback": 0
+      },
+      "multi": {
+        "n": 1,
+        "correct": 0,
+        "wrong": 0,
+        "abstained": 1,
+        "accuracy": 0.0,
+        "ci95": [
+          0,
+          0.793
+        ],
+        "avg_conf_correct": null,
+        "avg_conf_wrong": null,
+        "fallback": 0
+      }
+    }
+  },
+  "by_n_commits": {
+    "last_commit": {
+      "1": {
+        "n": 13,
+        "correct": 13,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.772,
+          1
+        ],
+        "avg_conf_correct": null,
+        "avg_conf_wrong": null,
+        "fallback": 0
+      },
+      "2": {
+        "n": 2,
+        "correct": 1,
+        "wrong": 1,
+        "abstained": 0,
+        "accuracy": 0.5,
+        "ci95": [
+          0.095,
+          0.905
+        ],
+        "avg_conf_correct": null,
+        "avg_conf_wrong": null,
+        "fallback": 0
+      },
+      "3": {
+        "n": 2,
+        "correct": 0,
+        "wrong": 2,
+        "abstained": 0,
+        "accuracy": 0.0,
+        "ci95": [
+          0,
+          0.658
+        ],
+        "avg_conf_correct": null,
+        "avg_conf_wrong": null,
+        "fallback": 0
+      }
+    },
+    "deterministic": {
+      "1": {
+        "n": 13,
+        "correct": 12,
+        "wrong": 0,
+        "abstained": 1,
+        "accuracy": 0.923,
+        "ci95": [
+          0.667,
+          0.986
+        ],
+        "avg_conf_correct": null,
+        "avg_conf_wrong": null,
+        "fallback": 13
+      },
+      "2": {
+        "n": 2,
+        "correct": 1,
+        "wrong": 1,
+        "abstained": 0,
+        "accuracy": 0.5,
+        "ci95": [
+          0.095,
+          0.905
+        ],
+        "avg_conf_correct": null,
+        "avg_conf_wrong": null,
+        "fallback": 2
+      },
+      "3": {
+        "n": 2,
+        "correct": 2,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.342,
+          1
+        ],
+        "avg_conf_correct": null,
+        "avg_conf_wrong": null,
+        "fallback": 2
+      }
+    },
+    "llm": {
+      "1": {
+        "n": 2,
+        "correct": 2,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.342,
+          1
+        ],
+        "avg_conf_correct": 0.945,
+        "avg_conf_wrong": null,
+        "fallback": 0
+      },
+      "2": {
+        "n": 1,
+        "correct": 0,
+        "wrong": 0,
+        "abstained": 1,
+        "accuracy": 0.0,
+        "ci95": [
+          0,
+          0.793
+        ],
+        "avg_conf_correct": null,
+        "avg_conf_wrong": null,
+        "fallback": 0
+      }
+    }
+  },
+  "multi_commit": {
+    "last_commit": {
+      "n": 4,
+      "correct": 1,
+      "wrong": 3,
+      "abstained": 0,
+      "accuracy": 0.25,
+      "ci95": [
+        0.046,
+        0.699
+      ],
+      "avg_conf_correct": null,
+      "avg_conf_wrong": null,
+      "fallback": 0
+    },
+    "deterministic": {
+      "n": 4,
+      "correct": 3,
+      "wrong": 1,
+      "abstained": 0,
+      "accuracy": 0.75,
+      "ci95": [
+        0.301,
+        0.954
+      ],
+      "avg_conf_correct": null,
+      "avg_conf_wrong": null,
+      "fallback": 4
+    },
+    "llm": {
+      "n": 1,
+      "correct": 0,
+      "wrong": 0,
+      "abstained": 1,
+      "accuracy": 0.0,
+      "ci95": [
+        0,
+        0.793
+      ],
+      "avg_conf_correct": null,
+      "avg_conf_wrong": null,
+      "fallback": 0
+    }
+  },
+  "rows": [
+    {
+      "case": "pydantic/pydantic#44569455204",
+      "variant": "last_commit",
+      "model": "-",
+      "responsible_commit": "3117d86945bfc17d017bd025c0b784a45a0bddab",
+      "confidence": null,
+      "fallback": false,
+      "fallback_reason": null,
+      "category": "real",
+      "difficulty": "multi",
+      "n_commits": 2,
+      "outcome": "correct"
+    },
+    {
+      "case": "pydantic/pydantic#44569455204",
+      "variant": "deterministic",
+      "model": "-",
+      "responsible_commit": "a96f13a48f430afe4472fcda47d3fe1a969e7273",
+      "confidence": null,
+      "fallback": true,
+      "fallback_reason": "deterministic only",
+      "category": "real",
+      "difficulty": "multi",
+      "n_commits": 2,
+      "outcome": "wrong"
+    },
+    {
+      "case": "pydantic/pydantic#44569455204",
+      "variant": "llm",
+      "model": "openai/gpt-oss-120b",
+      "responsible_commit": null,
+      "confidence": 0.95,
+      "fallback": false,
+      "fallback_reason": null,
+      "category": "real",
+      "difficulty": "multi",
+      "n_commits": 2,
+      "outcome": "abstained"
+    },
+    {
+      "case": "pallets/click#34144555748",
+      "variant": "last_commit",
+      "model": "-",
+      "responsible_commit": "3068b299db706b947165d3fe3bb56aaad256ff3c",
+      "confidence": null,
+      "fallback": false,
+      "fallback_reason": null,
+      "category": "real",
+      "difficulty": "easy",
+      "n_commits": 1,
+      "outcome": "correct"
+    },
+    {
+      "case": "pallets/click#34144555748",
+      "variant": "deterministic",
+      "model": "-",
+      "responsible_commit": "3068b299db706b947165d3fe3bb56aaad256ff3c",
+      "confidence": null,
+      "fallback": true,
+      "fallback_reason": "deterministic only",
+      "category": "real",
+      "difficulty": "easy",
+      "n_commits": 1,
+      "outcome": "correct"
+    },
+    {
+      "case": "pallets/click#34144555748",
+      "variant": "llm",
+      "model": "openai/gpt-oss-120b",
+      "responsible_commit": "3068b299db706b947165d3fe3bb56aaad256ff3c",
+      "confidence": 0.93,
+      "fallback": false,
+      "fallback_reason": null,
+      "category": "real",
+      "difficulty": "easy",
+      "n_commits": 1,
+      "outcome": "correct"
+    },
+    {
+      "case": "pallets/click#33496785933",
+      "variant": "last_commit",
+      "model": "-",
+      "responsible_commit": "0891cde54092f0ac3968bcd8956567fdcb98f0e0",
+      "confidence": null,
+      "fallback": false,
+      "fallback_reason": null,
+      "category": "real",
+      "difficulty": "easy",
+      "n_commits": 1,
+      "outcome": "correct"
+    },
+    {
+      "case": "pallets/click#33496785933",
+      "variant": "deterministic",
+      "model": "-",
+      "responsible_commit": "0891cde54092f0ac3968bcd8956567fdcb98f0e0",
+      "confidence": null,
+      "fallback": true,
+      "fallback_reason": "deterministic only",
+      "category": "real",
+      "difficulty": "easy",
+      "n_commits": 1,
+      "outcome": "correct"
+    },
+    {
+      "case": "pallets/click#33496785933",
+      "variant": "llm",
+      "model": "openai/gpt-oss-120b",
+      "responsible_commit": "0891cde54092f0ac3968bcd8956567fdcb98f0e0",
+      "confidence": 0.96,
+      "fallback": false,
+      "fallback_reason": null,
+      "category": "real",
+      "difficulty": "easy",
+      "n_commits": 1,
+      "outcome": "correct"
+    },
+    {
+      "case": "pallets/click#33325415245",
+      "variant": "last_commit",
+      "model": "-",
+      "responsible_commit": "d1c1fd6b8b70100e060ff98bf2ff54a0717d5c38",
+      "confidence": null,
+      "fallback": false,
+      "fallback_reason": null,
+      "category": "real",
+      "difficulty": "easy",
+      "n_commits": 1,
+      "outcome": "correct"
+    },
+    {
+      "case": "pallets/click#33325415245",
+      "variant": "deterministic",
+      "model": "-",
+      "responsible_commit": null,
+      "confidence": null,
+      "fallback": true,
+      "fallback_reason": "deterministic only",
+      "category": "real",
+      "difficulty": "easy",
+      "n_commits": 1,
+      "outcome": "abstained"
+    },
+    {
+      "case": "pallets/click#33201964359",
+      "variant": "last_commit",
+      "model": "-",
+      "responsible_commit": "694e2a6acfa5d8d4cdf0614e4ef89be72bfbc343",
+      "confidence": null,
+      "fallback": false,
+      "fallback_reason": null,
+      "category": "real",
+      "difficulty": "easy",
+      "n_commits": 1,
+      "outcome": "correct"
+    },
+    {
+      "case": "pallets/click#33201964359",
+      "variant": "deterministic",
+      "model": "-",
+      "responsible_commit": "694e2a6acfa5d8d4cdf0614e4ef89be72bfbc343",
+      "confidence": null,
+      "fallback": true,
+      "fallback_reason": "deterministic only",
+      "category": "real",
+      "difficulty": "easy",
+      "n_commits": 1,
+      "outcome": "correct"
+    },
+    {
+      "case": "python-attrs/attrs#38477282538",
+      "variant": "last_commit",
+      "model": "-",
+      "responsible_commit": "dc3658d6c22495fcc06bde5d94968f01854b052a",
+      "confidence": null,
+      "fallback": false,
+      "fallback_reason": null,
+      "category": "real",
+      "difficulty": "easy",
+      "n_commits": 1,
+      "outcome": "correct"
+    },
+    {
+      "case": "python-attrs/attrs#38477282538",
+      "variant": "deterministic",
+      "model": "-",
+      "responsible_commit": "dc3658d6c22495fcc06bde5d94968f01854b052a",
+      "confidence": null,
+      "fallback": true,
+      "fallback_reason": "deterministic only",
+      "category": "real",
+      "difficulty": "easy",
+      "n_commits": 1,
+      "outcome": "correct"
+    },
+    {
+      "case": "python-attrs/attrs#33951423062",
+      "variant": "last_commit",
+      "model": "-",
+      "responsible_commit": "a636abe97f506faa360a7894b648380ade984cf6",
+      "confidence": null,
+      "fallback": false,
+      "fallback_reason": null,
+      "category": "real",
+      "difficulty": "easy",
+      "n_commits": 1,
+      "outcome": "correct"
+    },
+    {
+      "case": "python-attrs/attrs#33951423062",
+      "variant": "deterministic",
+      "model": "-",
+      "responsible_commit": "a636abe97f506faa360a7894b648380ade984cf6",
+      "confidence": null,
+      "fallback": true,
+      "fallback_reason": "deterministic only",
+      "category": "real",
+      "difficulty": "easy",
+      "n_commits": 1,
+      "outcome": "correct"
+    },
+    {
+      "case": "fastapi/fastapi#44694893735",
+      "variant": "last_commit",
+      "model": "-",
+      "responsible_commit": "4211875aee987eb7d4fdd07e9b3f2744ddd556e5",
+      "confidence": null,
+      "fallback": false,
+      "fallback_reason": null,
+      "category": "real",
+      "difficulty": "easy",
+      "n_commits": 1,
+      "outcome": "correct"
+    },
+    {
+      "case": "fastapi/fastapi#44694893735",
+      "variant": "deterministic",
+      "model": "-",
+      "responsible_commit": "4211875aee987eb7d4fdd07e9b3f2744ddd556e5",
+      "confidence": null,
+      "fallback": true,
+      "fallback_reason": "deterministic only",
+      "category": "real",
+      "difficulty": "easy",
+      "n_commits": 1,
+      "outcome": "correct"
+    },
+    {
+      "case": "fastapi/fastapi#44138170508",
+      "variant": "last_commit",
+      "model": "-",
+      "responsible_commit": "1a42905d428f74c7cde734b16c29d67382d7662b",
+      "confidence": null,
+      "fallback": false,
+      "fallback_reason": null,
+      "category": "real",
+      "difficulty": "easy",
+      "n_commits": 1,
+      "outcome": "correct"
+    },
+    {
+      "case": "fastapi/fastapi#44138170508",
+      "variant": "deterministic",
+      "model": "-",
+      "responsible_commit": "1a42905d428f74c7cde734b16c29d67382d7662b",
+      "confidence": null,
+      "fallback": true,
+      "fallback_reason": "deterministic only",
+      "category": "real",
+      "difficulty": "easy",
+      "n_commits": 1,
+      "outcome": "correct"
+    },
+    {
+      "case": "fastapi/fastapi#43088004454",
+      "variant": "last_commit",
+      "model": "-",
+      "responsible_commit": "c31ee07649405286acd0867af73c02389b28eda7",
+      "confidence": null,
+      "fallback": false,
+      "fallback_reason": null,
+      "category": "real",
+      "difficulty": "easy",
+      "n_commits": 1,
+      "outcome": "correct"
+    },
+    {
+      "case": "fastapi/fastapi#43088004454",
+      "variant": "deterministic",
+      "model": "-",
+      "responsible_commit": "c31ee07649405286acd0867af73c02389b28eda7",
+      "confidence": null,
+      "fallback": true,
+      "fallback_reason": "deterministic only",
+      "category": "real",
+      "difficulty": "easy",
+      "n_commits": 1,
+      "outcome": "correct"
+    },
+    {
+      "case": "fastapi/fastapi#42722431344",
+      "variant": "last_commit",
+      "model": "-",
+      "responsible_commit": "bd0a862cf1661397e0f4b036b808d0cfc3232d1d",
+      "confidence": null,
+      "fallback": false,
+      "fallback_reason": null,
+      "category": "real",
+      "difficulty": "multi",
+      "n_commits": 3,
+      "outcome": "wrong"
+    },
+    {
+      "case": "fastapi/fastapi#42722431344",
+      "variant": "deterministic",
+      "model": "-",
+      "responsible_commit": "6918ee227e4a32df8adb513db139c618dbbae4a0",
+      "confidence": null,
+      "fallback": true,
+      "fallback_reason": "deterministic only",
+      "category": "real",
+      "difficulty": "multi",
+      "n_commits": 3,
+      "outcome": "correct"
+    },
+    {
+      "case": "fastapi/fastapi#42602908424",
+      "variant": "last_commit",
+      "model": "-",
+      "responsible_commit": "01bc55e8ed1a131f845502d8c63c39dda83dce2a",
+      "confidence": null,
+      "fallback": false,
+      "fallback_reason": null,
+      "category": "real",
+      "difficulty": "easy",
+      "n_commits": 1,
+      "outcome": "correct"
+    },
+    {
+      "case": "fastapi/fastapi#42602908424",
+      "variant": "deterministic",
+      "model": "-",
+      "responsible_commit": "01bc55e8ed1a131f845502d8c63c39dda83dce2a",
+      "confidence": null,
+      "fallback": true,
+      "fallback_reason": "deterministic only",
+      "category": "real",
+      "difficulty": "easy",
+      "n_commits": 1,
+      "outcome": "correct"
+    },
+    {
+      "case": "fastapi/fastapi#42501447188",
+      "variant": "last_commit",
+      "model": "-",
+      "responsible_commit": "b45fb7d3d311003e87dd8c3b4d550da2b7ab52a8",
+      "confidence": null,
+      "fallback": false,
+      "fallback_reason": null,
+      "category": "real",
+      "difficulty": "easy",
+      "n_commits": 1,
+      "outcome": "correct"
+    },
+    {
+      "case": "fastapi/fastapi#42501447188",
+      "variant": "deterministic",
+      "model": "-",
+      "responsible_commit": "b45fb7d3d311003e87dd8c3b4d550da2b7ab52a8",
+      "confidence": null,
+      "fallback": true,
+      "fallback_reason": "deterministic only",
+      "category": "real",
+      "difficulty": "easy",
+      "n_commits": 1,
+      "outcome": "correct"
+    },
+    {
+      "case": "fastapi/fastapi#42164176090",
+      "variant": "last_commit",
+      "model": "-",
+      "responsible_commit": "e67eac86f719d08c60edfbfdd085c9953e0e48fc",
+      "confidence": null,
+      "fallback": false,
+      "fallback_reason": null,
+      "category": "real",
+      "difficulty": "easy",
+      "n_commits": 1,
+      "outcome": "correct"
+    },
+    {
+      "case": "fastapi/fastapi#42164176090",
+      "variant": "deterministic",
+      "model": "-",
+      "responsible_commit": "e67eac86f719d08c60edfbfdd085c9953e0e48fc",
+      "confidence": null,
+      "fallback": true,
+      "fallback_reason": "deterministic only",
+      "category": "real",
+      "difficulty": "easy",
+      "n_commits": 1,
+      "outcome": "correct"
+    },
+    {
+      "case": "pytest-dev/pytest#43079052021",
+      "variant": "last_commit",
+      "model": "-",
+      "responsible_commit": "519aa43b070d8d87ae3de08168843fc1022d0b79",
+      "confidence": null,
+      "fallback": false,
+      "fallback_reason": null,
+      "category": "real",
+      "difficulty": "easy",
+      "n_commits": 1,
+      "outcome": "correct"
+    },
+    {
+      "case": "pytest-dev/pytest#43079052021",
+      "variant": "deterministic",
+      "model": "-",
+      "responsible_commit": "519aa43b070d8d87ae3de08168843fc1022d0b79",
+      "confidence": null,
+      "fallback": true,
+      "fallback_reason": "deterministic only",
+      "category": "real",
+      "difficulty": "easy",
+      "n_commits": 1,
+      "outcome": "correct"
+    },
+    {
+      "case": "pytest-dev/pytest#39602764127",
+      "variant": "last_commit",
+      "model": "-",
+      "responsible_commit": "4dab98b0bfe437474241ce86119df1ba81a78cf3",
+      "confidence": null,
+      "fallback": false,
+      "fallback_reason": null,
+      "category": "real",
+      "difficulty": "multi",
+      "n_commits": 2,
+      "outcome": "wrong"
+    },
+    {
+      "case": "pytest-dev/pytest#39602764127",
+      "variant": "deterministic",
+      "model": "-",
+      "responsible_commit": "c19e931c26059a77145ab3763be314c38b6895f4",
+      "confidence": null,
+      "fallback": true,
+      "fallback_reason": "deterministic only",
+      "category": "real",
+      "difficulty": "multi",
+      "n_commits": 2,
+      "outcome": "correct"
+    },
+    {
+      "case": "pytest-dev/pytest#36195406393",
+      "variant": "last_commit",
+      "model": "-",
+      "responsible_commit": "ac8b670fa0bd533c872d03730f711f3203982b21",
+      "confidence": null,
+      "fallback": false,
+      "fallback_reason": null,
+      "category": "real",
+      "difficulty": "multi",
+      "n_commits": 3,
+      "outcome": "wrong"
+    },
+    {
+      "case": "pytest-dev/pytest#36195406393",
+      "variant": "deterministic",
+      "model": "-",
+      "responsible_commit": "1c2b7966e9bd92fcacc1409e5d6ca1dde8015a1a",
+      "confidence": null,
+      "fallback": true,
+      "fallback_reason": "deterministic only",
+      "category": "real",
+      "difficulty": "multi",
+      "n_commits": 3,
+      "outcome": "correct"
+    }
+  ]
+}

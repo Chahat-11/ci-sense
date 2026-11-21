@@ -1,0 +1,4 @@
+{"case": "pydantic/pydantic#44569455204", "variant": "llm", "model": "openai/gpt-oss-120b", "responsible_commit": null, "confidence": 0.95, "fallback": false, "fallback_reason": null}
+{"case": "pallets/click#34144555748", "variant": "llm", "model": "openai/gpt-oss-120b", "responsible_commit": "3068b299db706b947165d3fe3bb56aaad256ff3c", "confidence": 0.93, "fallback": false, "fallback_reason": null}
+{"case": "pallets/click#33496785933", "variant": "llm", "model": "openai/gpt-oss-120b", "responsible_commit": "0891cde54092f0ac3968bcd8956567fdcb98f0e0", "confidence": 0.96, "fallback": false, "fallback_reason": null}
+{"case": "pallets/click#33325415245", "variant": "llm", "model": "openai/gpt-oss-120b", "responsible_commit": "d1c1fd6b8b70100e060ff98bf2ff54a0717d5c38", "confidence": 0.73, "fallback": false, "fallback_reason": null}

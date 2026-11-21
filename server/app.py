@@ -34,7 +34,7 @@ def normalize_repo(value):
 
 # Load .env with whitespace stripped, and hand the agent module a clean environment before importing it.
 for key, value in dotenv_values(ROOT / ".env").items():
-    if value is not None and key not in os.environ:
+    if value is not None:  # .env wins over a stale shell export
         os.environ[key] = value
 for key in ("GITHUB_TOKEN", "GROQ_API_KEY", "GROQ_MODEL", "GITHUB_REPO", "GITHUB_REPOSITORY"):
     if key in os.environ:
