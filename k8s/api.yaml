@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ci-sense-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: ci-sense-api }
+  template:
+    metadata:
+      labels: { app: ci-sense-api }
+    spec:
+      containers:
+        - name: api
+          image: ci-sense-api:latest
+          imagePullPolicy: IfNotPresent   # image is loaded into the local cluster, not pulled
+          ports:
+            - containerPort: 8787
+          envFrom:
+            - secretRef:
+                name: ci-sense-env          # created from your .env by scripts/k8s.sh
+          readinessProbe:
+            httpGet: { path: /api/meta, port: 8787 }
+            initialDelaySeconds: 3
+            periodSeconds: 10
+          resources:
+            requests: { cpu: 50m, memory: 128Mi }
+            limits: { memory: 512Mi }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ci-sense-api
+spec:
+  selector: { app: ci-sense-api }
+  ports:
+    - port: 8787
+      targetPort: 8787

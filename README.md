@@ -32,3 +32,13 @@ When `SRC_ACCESS_TOKEN` is set (plus optional `SRC_ENDPOINT`, default `https://s
 ## Ablation / baselines
 
     python scripts/ablation.py --runs 1    # last_commit vs deterministic vs llm vs llm_sourcegraph -> seeds/ablation.json
+
+## Running on Kubernetes
+
+The API and the web UI each build into a Docker image (`Dockerfile`, `web/Dockerfile`) and run as Deployments with Services (`k8s/`). Your `.env` becomes a Kubernetes Secret, so keys are never baked into an image. Locally this uses [kind](https://kind.sigs.k8s.io/) (Kubernetes inside Docker); you need Docker Desktop running.
+
+    scripts/k8s.sh up      # create cluster, build + load images, deploy
+    scripts/k8s.sh open    # UI on http://localhost:8080
+    scripts/k8s.sh down    # delete the cluster
+
+Useful commands: `kubectl get pods`, `kubectl logs deploy/ci-sense-api`, `kubectl scale deploy/ci-sense-web --replicas=3`.
