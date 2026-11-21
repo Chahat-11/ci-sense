@@ -24,3 +24,11 @@ A FastAPI backend (`server/`) reads verdicts from the PR comments and streams li
     npm run dev                                 # UI on http://localhost:5173
 
 Or start both with `scripts/dev.sh`. To point the UI at a different API, set `VITE_API_BASE` (see `web/.env.example`).
+
+## Sourcegraph context
+
+When `SRC_ACCESS_TOKEN` is set (plus optional `SRC_ENDPOINT`, default `https://sourcegraph.com`, and `SRC_REV`), triage searches Sourcegraph for the key identifiers in the error and passes the repo-wide matches to the LLM (`agent/sourcegraph.py`). It degrades silently if unavailable. For CI, add `SRC_ACCESS_TOKEN` as a repo secret. The repo must be indexed by the Sourcegraph instance.
+
+## Ablation / baselines
+
+    python scripts/ablation.py --runs 1    # last_commit vs deterministic vs llm vs llm_sourcegraph -> seeds/ablation.json

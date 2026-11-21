@@ -1,0 +1,1886 @@
+{
+  "summary": {
+    "last_commit": {
+      "n": 14,
+      "correct": 7,
+      "wrong": 7,
+      "abstained": 0,
+      "accuracy": 0.5,
+      "ci95": [
+        0.268,
+        0.732
+      ],
+      "all_runs": {
+        "n": 14,
+        "correct": 7,
+        "wrong": 7,
+        "abstained": 0,
+        "accuracy": 0.5,
+        "ci95": [
+          0.268,
+          0.732
+        ]
+      }
+    },
+    "deterministic": {
+      "n": 14,
+      "correct": 8,
+      "wrong": 6,
+      "abstained": 0,
+      "accuracy": 0.571,
+      "ci95": [
+        0.326,
+        0.786
+      ],
+      "all_runs": {
+        "n": 14,
+        "correct": 8,
+        "wrong": 6,
+        "abstained": 0,
+        "accuracy": 0.571,
+        "ci95": [
+          0.326,
+          0.786
+        ]
+      }
+    },
+    "llm": {
+      "n": 14,
+      "correct": 14,
+      "wrong": 0,
+      "abstained": 0,
+      "accuracy": 1.0,
+      "ci95": [
+        0.785,
+        1
+      ],
+      "all_runs": {
+        "n": 14,
+        "correct": 14,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.785,
+          1
+        ]
+      }
+    },
+    "llm_sourcegraph": {
+      "n": 14,
+      "correct": 14,
+      "wrong": 0,
+      "abstained": 0,
+      "accuracy": 1.0,
+      "ci95": [
+        0.785,
+        1
+      ],
+      "all_runs": {
+        "n": 14,
+        "correct": 14,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.785,
+          1
+        ]
+      }
+    }
+  },
+  "multi_commit_only": {
+    "last_commit": {
+      "n": 9,
+      "correct": 2,
+      "wrong": 7,
+      "abstained": 0,
+      "accuracy": 0.222,
+      "ci95": [
+        0.063,
+        0.547
+      ]
+    },
+    "deterministic": {
+      "n": 9,
+      "correct": 3,
+      "wrong": 6,
+      "abstained": 0,
+      "accuracy": 0.333,
+      "ci95": [
+        0.121,
+        0.646
+      ]
+    },
+    "llm": {
+      "n": 9,
+      "correct": 9,
+      "wrong": 0,
+      "abstained": 0,
+      "accuracy": 1.0,
+      "ci95": [
+        0.701,
+        1
+      ]
+    },
+    "llm_sourcegraph": {
+      "n": 9,
+      "correct": 9,
+      "wrong": 0,
+      "abstained": 0,
+      "accuracy": 1.0,
+      "ci95": [
+        0.701,
+        1
+      ]
+    }
+  },
+  "by_category": {
+    "last_commit": {
+      "dependency": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "hard_decoy_src": {
+        "n": 2,
+        "correct": 1,
+        "wrong": 1,
+        "abstained": 0,
+        "accuracy": 0.5,
+        "ci95": [
+          0.095,
+          0.905
+        ]
+      },
+      "hard_decoy_test": {
+        "n": 3,
+        "correct": 0,
+        "wrong": 3,
+        "abstained": 0,
+        "accuracy": 0.0,
+        "ci95": [
+          0,
+          0.562
+        ]
+      },
+      "hard_dependency": {
+        "n": 1,
+        "correct": 0,
+        "wrong": 1,
+        "abstained": 0,
+        "accuracy": 0.0,
+        "ci95": [
+          0,
+          0.793
+        ]
+      },
+      "import_error": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "logic_bug": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "multi_commit_behavior": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "multi_commit_logic": {
+        "n": 1,
+        "correct": 0,
+        "wrong": 1,
+        "abstained": 0,
+        "accuracy": 0.0,
+        "ci95": [
+          0,
+          0.793
+        ]
+      },
+      "multi_commit_rename": {
+        "n": 1,
+        "correct": 0,
+        "wrong": 1,
+        "abstained": 0,
+        "accuracy": 0.0,
+        "ci95": [
+          0,
+          0.793
+        ]
+      },
+      "syntax_error": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "test_bug": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      }
+    },
+    "deterministic": {
+      "dependency": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "hard_decoy_src": {
+        "n": 2,
+        "correct": 1,
+        "wrong": 1,
+        "abstained": 0,
+        "accuracy": 0.5,
+        "ci95": [
+          0.095,
+          0.905
+        ]
+      },
+      "hard_decoy_test": {
+        "n": 3,
+        "correct": 1,
+        "wrong": 2,
+        "abstained": 0,
+        "accuracy": 0.333,
+        "ci95": [
+          0.061,
+          0.792
+        ]
+      },
+      "hard_dependency": {
+        "n": 1,
+        "correct": 0,
+        "wrong": 1,
+        "abstained": 0,
+        "accuracy": 0.0,
+        "ci95": [
+          0,
+          0.793
+        ]
+      },
+      "import_error": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "logic_bug": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "multi_commit_behavior": {
+        "n": 1,
+        "correct": 0,
+        "wrong": 1,
+        "abstained": 0,
+        "accuracy": 0.0,
+        "ci95": [
+          0,
+          0.793
+        ]
+      },
+      "multi_commit_logic": {
+        "n": 1,
+        "correct": 0,
+        "wrong": 1,
+        "abstained": 0,
+        "accuracy": 0.0,
+        "ci95": [
+          0,
+          0.793
+        ]
+      },
+      "multi_commit_rename": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "syntax_error": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "test_bug": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      }
+    },
+    "llm": {
+      "dependency": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "hard_decoy_src": {
+        "n": 2,
+        "correct": 2,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.342,
+          1
+        ]
+      },
+      "hard_decoy_test": {
+        "n": 3,
+        "correct": 3,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.438,
+          1
+        ]
+      },
+      "hard_dependency": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "import_error": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "logic_bug": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "multi_commit_behavior": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "multi_commit_logic": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "multi_commit_rename": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "syntax_error": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "test_bug": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      }
+    },
+    "llm_sourcegraph": {
+      "dependency": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "hard_decoy_src": {
+        "n": 2,
+        "correct": 2,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.342,
+          1
+        ]
+      },
+      "hard_decoy_test": {
+        "n": 3,
+        "correct": 3,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.438,
+          1
+        ]
+      },
+      "hard_dependency": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "import_error": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "logic_bug": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "multi_commit_behavior": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "multi_commit_logic": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "multi_commit_rename": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "syntax_error": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "test_bug": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      }
+    }
+  },
+  "by_case": {
+    "last_commit": {
+      "01": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "02": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "03": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "04": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "05": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "06": {
+        "n": 1,
+        "correct": 0,
+        "wrong": 1,
+        "abstained": 0,
+        "accuracy": 0.0,
+        "ci95": [
+          0,
+          0.793
+        ]
+      },
+      "07": {
+        "n": 1,
+        "correct": 0,
+        "wrong": 1,
+        "abstained": 0,
+        "accuracy": 0.0,
+        "ci95": [
+          0,
+          0.793
+        ]
+      },
+      "08": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "09": {
+        "n": 1,
+        "correct": 0,
+        "wrong": 1,
+        "abstained": 0,
+        "accuracy": 0.0,
+        "ci95": [
+          0,
+          0.793
+        ]
+      },
+      "10": {
+        "n": 1,
+        "correct": 0,
+        "wrong": 1,
+        "abstained": 0,
+        "accuracy": 0.0,
+        "ci95": [
+          0,
+          0.793
+        ]
+      },
+      "11": {
+        "n": 1,
+        "correct": 0,
+        "wrong": 1,
+        "abstained": 0,
+        "accuracy": 0.0,
+        "ci95": [
+          0,
+          0.793
+        ]
+      },
+      "12": {
+        "n": 1,
+        "correct": 0,
+        "wrong": 1,
+        "abstained": 0,
+        "accuracy": 0.0,
+        "ci95": [
+          0,
+          0.793
+        ]
+      },
+      "13": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "14": {
+        "n": 1,
+        "correct": 0,
+        "wrong": 1,
+        "abstained": 0,
+        "accuracy": 0.0,
+        "ci95": [
+          0,
+          0.793
+        ]
+      }
+    },
+    "deterministic": {
+      "01": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "02": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "03": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "04": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "05": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "06": {
+        "n": 1,
+        "correct": 0,
+        "wrong": 1,
+        "abstained": 0,
+        "accuracy": 0.0,
+        "ci95": [
+          0,
+          0.793
+        ]
+      },
+      "07": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "08": {
+        "n": 1,
+        "correct": 0,
+        "wrong": 1,
+        "abstained": 0,
+        "accuracy": 0.0,
+        "ci95": [
+          0,
+          0.793
+        ]
+      },
+      "09": {
+        "n": 1,
+        "correct": 0,
+        "wrong": 1,
+        "abstained": 0,
+        "accuracy": 0.0,
+        "ci95": [
+          0,
+          0.793
+        ]
+      },
+      "10": {
+        "n": 1,
+        "correct": 0,
+        "wrong": 1,
+        "abstained": 0,
+        "accuracy": 0.0,
+        "ci95": [
+          0,
+          0.793
+        ]
+      },
+      "11": {
+        "n": 1,
+        "correct": 0,
+        "wrong": 1,
+        "abstained": 0,
+        "accuracy": 0.0,
+        "ci95": [
+          0,
+          0.793
+        ]
+      },
+      "12": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "13": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "14": {
+        "n": 1,
+        "correct": 0,
+        "wrong": 1,
+        "abstained": 0,
+        "accuracy": 0.0,
+        "ci95": [
+          0,
+          0.793
+        ]
+      }
+    },
+    "llm": {
+      "01": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "02": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "03": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "04": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "05": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "06": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "07": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "08": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "09": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "10": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "11": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "12": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "13": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "14": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      }
+    },
+    "llm_sourcegraph": {
+      "01": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "02": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "03": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "04": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "05": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "06": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "07": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "08": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "09": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "10": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "11": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "12": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "13": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      },
+      "14": {
+        "n": 1,
+        "correct": 1,
+        "wrong": 0,
+        "abstained": 0,
+        "accuracy": 1.0,
+        "ci95": [
+          0.207,
+          1
+        ]
+      }
+    }
+  },
+  "sourcegraph_usage": {
+    "runs": 14,
+    "runs_with_context": 4,
+    "cases_with_context": [
+      "01",
+      "05",
+      "07",
+      "11"
+    ]
+  },
+  "rows": [
+    {
+      "case": "01",
+      "category": "import_error",
+      "variant": "last_commit",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": null,
+      "fallback": true,
+      "n_candidates": 1,
+      "sourcegraph_chars": 0
+    },
+    {
+      "case": "01",
+      "category": "import_error",
+      "variant": "deterministic",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": null,
+      "fallback": true,
+      "n_candidates": 1,
+      "sourcegraph_chars": 0
+    },
+    {
+      "case": "01",
+      "category": "import_error",
+      "variant": "llm",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": 0.99,
+      "fallback": false,
+      "n_candidates": 1,
+      "sourcegraph_chars": 0
+    },
+    {
+      "case": "01",
+      "category": "import_error",
+      "variant": "llm_sourcegraph",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": 0.98,
+      "fallback": false,
+      "n_candidates": 1,
+      "sourcegraph_chars": 389
+    },
+    {
+      "case": "02",
+      "category": "logic_bug",
+      "variant": "last_commit",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": null,
+      "fallback": true,
+      "n_candidates": 1,
+      "sourcegraph_chars": 0
+    },
+    {
+      "case": "02",
+      "category": "logic_bug",
+      "variant": "deterministic",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": null,
+      "fallback": true,
+      "n_candidates": 1,
+      "sourcegraph_chars": 0
+    },
+    {
+      "case": "02",
+      "category": "logic_bug",
+      "variant": "llm",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": 0.99,
+      "fallback": false,
+      "n_candidates": 1,
+      "sourcegraph_chars": 0
+    },
+    {
+      "case": "02",
+      "category": "logic_bug",
+      "variant": "llm_sourcegraph",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": 0.99,
+      "fallback": false,
+      "n_candidates": 1,
+      "sourcegraph_chars": 0
+    },
+    {
+      "case": "03",
+      "category": "test_bug",
+      "variant": "last_commit",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": null,
+      "fallback": true,
+      "n_candidates": 1,
+      "sourcegraph_chars": 0
+    },
+    {
+      "case": "03",
+      "category": "test_bug",
+      "variant": "deterministic",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": null,
+      "fallback": true,
+      "n_candidates": 1,
+      "sourcegraph_chars": 0
+    },
+    {
+      "case": "03",
+      "category": "test_bug",
+      "variant": "llm",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": 0.96,
+      "fallback": false,
+      "n_candidates": 1,
+      "sourcegraph_chars": 0
+    },
+    {
+      "case": "03",
+      "category": "test_bug",
+      "variant": "llm_sourcegraph",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": 0.96,
+      "fallback": false,
+      "n_candidates": 1,
+      "sourcegraph_chars": 0
+    },
+    {
+      "case": "04",
+      "category": "syntax_error",
+      "variant": "last_commit",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": null,
+      "fallback": true,
+      "n_candidates": 1,
+      "sourcegraph_chars": 0
+    },
+    {
+      "case": "04",
+      "category": "syntax_error",
+      "variant": "deterministic",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": null,
+      "fallback": true,
+      "n_candidates": 1,
+      "sourcegraph_chars": 0
+    },
+    {
+      "case": "04",
+      "category": "syntax_error",
+      "variant": "llm",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": 0.97,
+      "fallback": false,
+      "n_candidates": 1,
+      "sourcegraph_chars": 0
+    },
+    {
+      "case": "04",
+      "category": "syntax_error",
+      "variant": "llm_sourcegraph",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": 0.97,
+      "fallback": false,
+      "n_candidates": 1,
+      "sourcegraph_chars": 0
+    },
+    {
+      "case": "05",
+      "category": "dependency",
+      "variant": "last_commit",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": null,
+      "fallback": true,
+      "n_candidates": 1,
+      "sourcegraph_chars": 0
+    },
+    {
+      "case": "05",
+      "category": "dependency",
+      "variant": "deterministic",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": null,
+      "fallback": true,
+      "n_candidates": 1,
+      "sourcegraph_chars": 0
+    },
+    {
+      "case": "05",
+      "category": "dependency",
+      "variant": "llm",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": 0.98,
+      "fallback": false,
+      "n_candidates": 1,
+      "sourcegraph_chars": 0
+    },
+    {
+      "case": "05",
+      "category": "dependency",
+      "variant": "llm_sourcegraph",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": 0.98,
+      "fallback": false,
+      "n_candidates": 1,
+      "sourcegraph_chars": 400
+    },
+    {
+      "case": "06",
+      "category": "multi_commit_logic",
+      "variant": "last_commit",
+      "rep": 0,
+      "outcome": "wrong",
+      "confidence": null,
+      "fallback": true,
+      "n_candidates": 3,
+      "sourcegraph_chars": 0
+    },
+    {
+      "case": "06",
+      "category": "multi_commit_logic",
+      "variant": "deterministic",
+      "rep": 0,
+      "outcome": "wrong",
+      "confidence": null,
+      "fallback": true,
+      "n_candidates": 3,
+      "sourcegraph_chars": 0
+    },
+    {
+      "case": "06",
+      "category": "multi_commit_logic",
+      "variant": "llm",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": 0.98,
+      "fallback": false,
+      "n_candidates": 3,
+      "sourcegraph_chars": 0
+    },
+    {
+      "case": "06",
+      "category": "multi_commit_logic",
+      "variant": "llm_sourcegraph",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": 0.98,
+      "fallback": false,
+      "n_candidates": 3,
+      "sourcegraph_chars": 0
+    },
+    {
+      "case": "07",
+      "category": "multi_commit_rename",
+      "variant": "last_commit",
+      "rep": 0,
+      "outcome": "wrong",
+      "confidence": null,
+      "fallback": true,
+      "n_candidates": 3,
+      "sourcegraph_chars": 0
+    },
+    {
+      "case": "07",
+      "category": "multi_commit_rename",
+      "variant": "deterministic",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": null,
+      "fallback": true,
+      "n_candidates": 3,
+      "sourcegraph_chars": 0
+    },
+    {
+      "case": "07",
+      "category": "multi_commit_rename",
+      "variant": "llm",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": 0.96,
+      "fallback": false,
+      "n_candidates": 3,
+      "sourcegraph_chars": 0
+    },
+    {
+      "case": "07",
+      "category": "multi_commit_rename",
+      "variant": "llm_sourcegraph",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": 0.97,
+      "fallback": false,
+      "n_candidates": 3,
+      "sourcegraph_chars": 421
+    },
+    {
+      "case": "08",
+      "category": "multi_commit_behavior",
+      "variant": "last_commit",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": null,
+      "fallback": true,
+      "n_candidates": 2,
+      "sourcegraph_chars": 0
+    },
+    {
+      "case": "08",
+      "category": "multi_commit_behavior",
+      "variant": "deterministic",
+      "rep": 0,
+      "outcome": "wrong",
+      "confidence": null,
+      "fallback": true,
+      "n_candidates": 2,
+      "sourcegraph_chars": 0
+    },
+    {
+      "case": "08",
+      "category": "multi_commit_behavior",
+      "variant": "llm",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": 0.98,
+      "fallback": false,
+      "n_candidates": 2,
+      "sourcegraph_chars": 0
+    },
+    {
+      "case": "08",
+      "category": "multi_commit_behavior",
+      "variant": "llm_sourcegraph",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": 0.97,
+      "fallback": false,
+      "n_candidates": 2,
+      "sourcegraph_chars": 0
+    },
+    {
+      "case": "09",
+      "category": "hard_decoy_test",
+      "variant": "last_commit",
+      "rep": 0,
+      "outcome": "wrong",
+      "confidence": null,
+      "fallback": true,
+      "n_candidates": 3,
+      "sourcegraph_chars": 0
+    },
+    {
+      "case": "09",
+      "category": "hard_decoy_test",
+      "variant": "deterministic",
+      "rep": 0,
+      "outcome": "wrong",
+      "confidence": null,
+      "fallback": true,
+      "n_candidates": 3,
+      "sourcegraph_chars": 0
+    },
+    {
+      "case": "09",
+      "category": "hard_decoy_test",
+      "variant": "llm",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": 0.96,
+      "fallback": false,
+      "n_candidates": 3,
+      "sourcegraph_chars": 0
+    },
+    {
+      "case": "09",
+      "category": "hard_decoy_test",
+      "variant": "llm_sourcegraph",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": 0.96,
+      "fallback": false,
+      "n_candidates": 3,
+      "sourcegraph_chars": 0
+    },
+    {
+      "case": "10",
+      "category": "hard_decoy_src",
+      "variant": "last_commit",
+      "rep": 0,
+      "outcome": "wrong",
+      "confidence": null,
+      "fallback": true,
+      "n_candidates": 3,
+      "sourcegraph_chars": 0
+    },
+    {
+      "case": "10",
+      "category": "hard_decoy_src",
+      "variant": "deterministic",
+      "rep": 0,
+      "outcome": "wrong",
+      "confidence": null,
+      "fallback": true,
+      "n_candidates": 3,
+      "sourcegraph_chars": 0
+    },
+    {
+      "case": "10",
+      "category": "hard_decoy_src",
+      "variant": "llm",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": 0.96,
+      "fallback": false,
+      "n_candidates": 3,
+      "sourcegraph_chars": 0
+    },
+    {
+      "case": "10",
+      "category": "hard_decoy_src",
+      "variant": "llm_sourcegraph",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": 0.96,
+      "fallback": false,
+      "n_candidates": 3,
+      "sourcegraph_chars": 0
+    },
+    {
+      "case": "11",
+      "category": "hard_dependency",
+      "variant": "last_commit",
+      "rep": 0,
+      "outcome": "wrong",
+      "confidence": null,
+      "fallback": true,
+      "n_candidates": 3,
+      "sourcegraph_chars": 0
+    },
+    {
+      "case": "11",
+      "category": "hard_dependency",
+      "variant": "deterministic",
+      "rep": 0,
+      "outcome": "wrong",
+      "confidence": null,
+      "fallback": true,
+      "n_candidates": 3,
+      "sourcegraph_chars": 0
+    },
+    {
+      "case": "11",
+      "category": "hard_dependency",
+      "variant": "llm",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": 0.99,
+      "fallback": false,
+      "n_candidates": 3,
+      "sourcegraph_chars": 0
+    },
+    {
+      "case": "11",
+      "category": "hard_dependency",
+      "variant": "llm_sourcegraph",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": 0.97,
+      "fallback": false,
+      "n_candidates": 3,
+      "sourcegraph_chars": 672
+    },
+    {
+      "case": "12",
+      "category": "hard_decoy_test",
+      "variant": "last_commit",
+      "rep": 0,
+      "outcome": "wrong",
+      "confidence": null,
+      "fallback": true,
+      "n_candidates": 3,
+      "sourcegraph_chars": 0
+    },
+    {
+      "case": "12",
+      "category": "hard_decoy_test",
+      "variant": "deterministic",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": null,
+      "fallback": true,
+      "n_candidates": 3,
+      "sourcegraph_chars": 0
+    },
+    {
+      "case": "12",
+      "category": "hard_decoy_test",
+      "variant": "llm",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": 0.99,
+      "fallback": false,
+      "n_candidates": 3,
+      "sourcegraph_chars": 0
+    },
+    {
+      "case": "12",
+      "category": "hard_decoy_test",
+      "variant": "llm_sourcegraph",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": 0.99,
+      "fallback": false,
+      "n_candidates": 3,
+      "sourcegraph_chars": 0
+    },
+    {
+      "case": "13",
+      "category": "hard_decoy_src",
+      "variant": "last_commit",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": null,
+      "fallback": true,
+      "n_candidates": 2,
+      "sourcegraph_chars": 0
+    },
+    {
+      "case": "13",
+      "category": "hard_decoy_src",
+      "variant": "deterministic",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": null,
+      "fallback": true,
+      "n_candidates": 2,
+      "sourcegraph_chars": 0
+    },
+    {
+      "case": "13",
+      "category": "hard_decoy_src",
+      "variant": "llm",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": 0.96,
+      "fallback": false,
+      "n_candidates": 2,
+      "sourcegraph_chars": 0
+    },
+    {
+      "case": "13",
+      "category": "hard_decoy_src",
+      "variant": "llm_sourcegraph",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": 0.95,
+      "fallback": false,
+      "n_candidates": 2,
+      "sourcegraph_chars": 0
+    },
+    {
+      "case": "14",
+      "category": "hard_decoy_test",
+      "variant": "last_commit",
+      "rep": 0,
+      "outcome": "wrong",
+      "confidence": null,
+      "fallback": true,
+      "n_candidates": 3,
+      "sourcegraph_chars": 0
+    },
+    {
+      "case": "14",
+      "category": "hard_decoy_test",
+      "variant": "deterministic",
+      "rep": 0,
+      "outcome": "wrong",
+      "confidence": null,
+      "fallback": true,
+      "n_candidates": 3,
+      "sourcegraph_chars": 0
+    },
+    {
+      "case": "14",
+      "category": "hard_decoy_test",
+      "variant": "llm",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": 0.96,
+      "fallback": false,
+      "n_candidates": 3,
+      "sourcegraph_chars": 0
+    },
+    {
+      "case": "14",
+      "category": "hard_decoy_test",
+      "variant": "llm_sourcegraph",
+      "rep": 0,
+      "outcome": "correct",
+      "confidence": 0.96,
+      "fallback": false,
+      "n_candidates": 3,
+      "sourcegraph_chars": 0
+    }
+  ]
+}

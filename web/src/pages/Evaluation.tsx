@@ -35,7 +35,10 @@ export default function EvaluationPage() {
       ) : loading || !data ? (
         <EvaluationSkeleton />
       ) : (
-        <EvaluationBody data={data} />
+        <>
+          <EvaluationBody data={data} />
+          <AblationCard />
+        </>
       )}
     </>
   );
@@ -250,5 +253,66 @@ function EvaluationSkeleton() {
         ))}
       </Card>
     </div>
+  );
+}
+
+interface AblationStats {
+  n: number;
+  correct: number;
+  accuracy: number | null;
+  ci95: [number, number] | null;
+}
+interface Ablation {
+  summary: Record<string, AblationStats>;
+  multi_commit_only?: Record<string, AblationStats>;
+  sourcegraph_usage?: { runs: number; runs_with_context: number; cases_with_context: string[] };
+}
+
+const VARIANT_LABELS: Record<string, string> = {
+  last_commit: "Newest commit (baseline)",
+  deterministic: "Deterministic scoring",
+  llm: "LLM",
+  llm_sourcegraph: "LLM + Sourcegraph",
+};
+
+function AblationCard() {
+  const { data } = useApi<Ablation>("/api/ablation");
+  if (!data) return null;
+  const range = (s: AblationStats) => (s.ci95 ? `${pct(s.ci95[0])} – ${pct(s.ci95[1])}` : "—");
+  const usage = data.sourcegraph_usage;
+  const multi = (v: string) => data.multi_commit_only?.[v];
+  return (
+    <Card className="mt-4">
+      <CardHeader
+        title="Ablation and baselines"
+        meta={usage ? `Sourcegraph context retrieved in ${usage.runs_with_context} of ${usage.runs} runs` : "Sourcegraph usage not logged in this run"}
+      />
+      <table className="w-full text-xs">
+        <thead>
+          <tr className="border-b border-line text-left text-fg-subtle">
+            <th className="px-4 py-2 font-medium">Variant</th>
+            <th className="px-4 py-2 font-medium">All cases</th>
+            <th className="px-4 py-2 font-medium">95% CI</th>
+            <th className="px-4 py-2 font-medium">Multi-commit only</th>
+          </tr>
+        </thead>
+        <tbody>
+          {Object.keys(VARIANT_LABELS).map((v) =>
+            data.summary[v] ? (
+              <tr key={v} className="border-b border-line last:border-b-0">
+                <td className="px-4 py-2.5 text-fg">{VARIANT_LABELS[v]}</td>
+                <td className="px-4 py-2.5 font-mono">
+                  {pct(data.summary[v].accuracy)} ({data.summary[v].correct}/{data.summary[v].n})
+                </td>
+                <td className="px-4 py-2.5 font-mono text-fg-muted">{range(data.summary[v])}</td>
+                <td className="px-4 py-2.5 font-mono">
+                  {multi(v) ? `${pct(multi(v)!.accuracy)} (${multi(v)!.correct}/${multi(v)!.n})` : "—"}
+                </td>
+              </tr>
+            ) : null,
+          )}
+        </tbody>
+      </table>
+    </Card>
   );
 }

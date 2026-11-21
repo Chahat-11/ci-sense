@@ -27,7 +27,6 @@ ROOT = Path(__file__).resolve().parent.parent
 GROUND_TRUTH = ROOT / "seeds" / "ground_truth.json"
 BASE = "main"
 API = "https://api.github.com"
-TRAILER = "\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
 
 
 def replace(path, old, new):
@@ -151,6 +150,109 @@ CASES = [
             ], True),
         ],
     },
+    {
+        "id": "09", "name": "floor-division-hidden", "category": "hard_decoy_test",
+        "title": "Floor division, README usage and fractional divide test",
+        "description": "First of three commits switches divide to floor division; existing tests still pass. "
+                       "The newest commit adds a correct test (divide(7, 2) == 3.5) that is the one that fails.",
+        "commits": [
+            ("Use floor division in divide", [
+                replace("src/calculator.py", "    return a / b", "    return a // b"),
+            ], True),
+            ("Add README usage section", [
+                append("README.md", "\n## Usage\n\n    from src.calculator import add, divide\n"),
+            ], False),
+            ("Add test for fractional divide", [
+                append("tests/test_calculator.py", "\n\ndef test_divide_fractional():\n    assert divide(7, 2) == 3.5\n"),
+            ], False),
+        ],
+    },
+    {
+        "id": "10", "name": "int-coercion-docstring-decoy", "category": "hard_decoy_src",
+        "title": "Float add test, int coercion and docstrings",
+        "description": "Middle commit coerces add's inputs to int; the earlier test (add(2.5, 1.5) == 4.0) now fails. "
+                       "A later docstring-only commit touches the same function.",
+        "commits": [
+            ("Add float addition test", [
+                append("tests/test_calculator.py", "\n\ndef test_add_float():\n    assert add(2.5, 1.5) == 4.0\n"),
+            ], False),
+            ("Coerce add inputs to int for safety", [
+                replace("src/calculator.py", "def add(a, b):\n    return a + b",
+                        "def add(a, b):\n    return int(a) + int(b)"),
+            ], True),
+            ("Document add behaviour", [
+                replace("src/calculator.py", "def add(a, b):", 'def add(a, b):\n    """Return the sum of a and b."""'),
+            ], False),
+        ],
+    },
+    {
+        "id": "11", "name": "unavailable-pin-among-valid", "category": "hard_dependency",
+        "title": "Add pytest plugins",
+        "description": "Three commits each add a pytest plugin to requirements.txt; the middle one pins "
+                       "pytest-randomly==99.0.0, which does not exist.",
+        "commits": [
+            ("Add pytest-cov for coverage", [
+                append("requirements.txt", "pytest-cov==4.1.0\n"),
+            ], False),
+            ("Add pytest-randomly for test ordering", [
+                append("requirements.txt", "pytest-randomly==99.0.0\n"),
+            ], True),
+            ("Add pytest-xdist for parallel runs", [
+                append("requirements.txt", "pytest-xdist==3.5.0\n"),
+            ], False),
+        ],
+    },
+    {
+        "id": "12", "name": "error-message-reworded", "category": "hard_decoy_test",
+        "title": "Add multiply and reword zero-division error",
+        "description": "Middle commit rewords divide's ValueError message; the existing test matches the old text. "
+                       "The newest commit edits the test file for an unrelated multiply test.",
+        "commits": [
+            ("Add multiply helper", [
+                append("src/calculator.py", "\n\ndef multiply(a, b):\n    return a * b\n"),
+            ], False),
+            ("Reword zero-division error message", [
+                replace("src/calculator.py", 'raise ValueError("cannot divide by zero")',
+                        'raise ValueError("division by zero is undefined")'),
+            ], True),
+            ("Add multiply test", [
+                replace("tests/test_calculator.py", "from src.calculator import add, divide",
+                        "from src.calculator import add, divide, multiply"),
+                append("tests/test_calculator.py", "\n\ndef test_multiply():\n    assert multiply(4, 5) == 20\n"),
+            ], False),
+        ],
+    },
+    {
+        "id": "13", "name": "test-edit-after-refactor", "category": "hard_decoy_src",
+        "title": "Simplify zero check and update divide expectations",
+        "description": "First commit is a behaviour-preserving refactor of divide; the second wrongly changes the "
+                       "test's expected value (divide(10, 2) == 2.5).",
+        "commits": [
+            ("Simplify zero check in divide", [
+                replace("src/calculator.py", "    if b == 0:", "    if not b:"),
+            ], False),
+            ("Update divide expectations", [
+                replace("tests/test_calculator.py", "    assert divide(10, 2) == 5", "    assert divide(10, 2) == 2.5"),
+            ], True),
+        ],
+    },
+    {
+        "id": "14", "name": "rounding-hidden", "category": "hard_decoy_test",
+        "title": "Round add results, README note and decimal test",
+        "description": "First commit rounds add's result to one decimal; existing tests still pass. "
+                       "The newest commit adds a correct test (add(0.12, 0.13) == 0.25) that fails.",
+        "commits": [
+            ("Round add results to one decimal", [
+                replace("src/calculator.py", "    return a + b", "    return round(a + b, 1)"),
+            ], True),
+            ("Add README note about precision", [
+                append("README.md", "\n## Precision\n\nResults are plain Python floats.\n"),
+            ], False),
+            ("Add test for small decimals", [
+                append("tests/test_calculator.py", "\n\ndef test_add_decimals():\n    assert add(0.12, 0.13) == 0.25\n"),
+            ], False),
+        ],
+    },
 ]
 
 
@@ -249,7 +351,7 @@ def seed_case(repo, case, steps):
             for path, (_, after) in changed.items():
                 Path(workdir, path).write_text(after)
             git("add", *changed, cwd=workdir)
-            git("commit", "-q", "-m", message + TRAILER, cwd=workdir)
+            git("commit", "-q", "-m", message, cwd=workdir)
             sha = git("rev-parse", "HEAD", cwd=workdir)
             commits.append({"sha": sha, "message": message, "guilty": guilty})
             if guilty:

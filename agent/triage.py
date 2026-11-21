@@ -293,7 +293,7 @@ def log_llm_fallback(reason, exc=None):
     return message
 
 
-def llm_verdict(error_text, scored_candidates):
+def llm_verdict(error_text, scored_candidates, extra_context=""):
     if not GROQ_API_KEY:
         return fallback_verdict(scored_candidates, log_llm_fallback("GROQ_API_KEY not set"))
     if not scored_candidates:
@@ -314,6 +314,8 @@ def llm_verdict(error_text, scored_candidates):
         f"Distilled CI error:\n{error_text}\n\n"
         f"Candidate commits:\n{json.dumps(candidates_payload, indent=2)}"
     )
+    if extra_context:
+        user_message += f"\n\nSourcegraph public-code search results (external evidence; may be unrelated, use only if it helps):\n{extra_context}"
 
     try:
         import groq
@@ -419,8 +421,11 @@ def with_hidden_data(text, result):
 VERDICT_FIELDS = ["what_failed", "why", "responsible_commit", "confidence", "suggested_fix", "reasoning"]
 
 
-def run_pipeline(run_id, post=False, progress=None):
+def run_pipeline(run_id, post=False, progress=None, mode="llm_sourcegraph"):
     """Triage one failed run. Returns (result, comment_body); posts to GitHub only when post=True.
+
+    mode selects the pipeline variant (used for ablation): "last_commit" (naive baseline), "deterministic"
+    (scoring only), "llm" (scoring + LLM), "llm_sourcegraph" (adds Sourcegraph context when configured).
 
     progress(stage, status, preview) is called with status "start" when a stage begins and
     "done" (plus a small preview dict of its output) when it finishes.
@@ -481,7 +486,22 @@ def run_pipeline(run_id, post=False, progress=None):
     })
 
     stage("LLM verdict")
-    verdict = llm_verdict(distilled, scored)
+    context = ""
+    if mode == "last_commit":
+        verdict = fallback_verdict([], "baseline: newest candidate commit")
+        if scored:
+            verdict.update(responsible_commit=scored[-1]["sha"], why="Baseline: newest commit in the PR.")
+    elif mode == "deterministic":
+        verdict = fallback_verdict(scored, "baseline: deterministic scoring only")
+    else:
+        if mode == "llm_sourcegraph":
+            try:
+                from agent import sourcegraph
+            except ImportError:  # run as a script: agent/ is on sys.path
+                import sourcegraph
+            context = sourcegraph.build_context(REPO, distilled, "\n".join(c["patch"] for c in scored))
+            stage("Sourcegraph", "done", {"context_chars": len(context)})
+        verdict = llm_verdict(distilled, scored, context)
     stage("LLM verdict", "done", {
         "responsible_commit": verdict["responsible_commit"],
         "confidence": verdict.get("confidence"),
@@ -506,6 +526,8 @@ def run_pipeline(run_id, post=False, progress=None):
         "model": GROQ_MODEL,
         "timestamp": datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds"),
         "distilled_error": distilled[:1500],
+        "sourcegraph_chars": len(context),
+        "sourcegraph_context": context[:1500],
     }
 
     posts = []

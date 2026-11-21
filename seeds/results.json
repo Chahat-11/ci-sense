@@ -1,17 +1,17 @@
 {
   "summary": {
-    "cases": 8,
-    "completed": 8,
+    "cases": 14,
+    "completed": 14,
     "accuracy": 1.0,
     "counts": {
-      "correct": 8,
+      "correct": 14,
       "wrong": 0,
       "abstained": 0,
       "pending": 0
     },
-    "llm": 8,
+    "llm": 14,
     "fallback": 0,
-    "avg_confidence_correct": 0.968,
+    "avg_confidence_correct": 0.969,
     "avg_confidence_wrong": null
   },
   "cases": [
@@ -98,6 +98,72 @@
       "pr_number": 11,
       "expected_sha": "8dccf0b7442257ac88cc24b214e869600d510737",
       "verdict_sha": "8dccf0b7442257ac88cc24b214e869600d510737",
+      "confidence": 0.96,
+      "source": "llm",
+      "fallback_reason": null,
+      "result": "correct"
+    },
+    {
+      "case": "09",
+      "category": "hard_decoy_test",
+      "pr_number": 12,
+      "expected_sha": "e72edc1b0bbb848ecd0ce9a6d8e9286aa23d584f",
+      "verdict_sha": "e72edc1b0bbb848ecd0ce9a6d8e9286aa23d584f",
+      "confidence": 0.96,
+      "source": "llm",
+      "fallback_reason": null,
+      "result": "correct"
+    },
+    {
+      "case": "10",
+      "category": "hard_decoy_src",
+      "pr_number": 13,
+      "expected_sha": "9cc32552e4dbff7aaed63e285ad7c08c9e397264",
+      "verdict_sha": "9cc32552e4dbff7aaed63e285ad7c08c9e397264",
+      "confidence": 0.96,
+      "source": "llm",
+      "fallback_reason": null,
+      "result": "correct"
+    },
+    {
+      "case": "11",
+      "category": "hard_dependency",
+      "pr_number": 14,
+      "expected_sha": "1e9730d3987c601cef3150bf5f3f713e20e538ac",
+      "verdict_sha": "1e9730d3987c601cef3150bf5f3f713e20e538ac",
+      "confidence": 0.99,
+      "source": "llm",
+      "fallback_reason": null,
+      "result": "correct"
+    },
+    {
+      "case": "12",
+      "category": "hard_decoy_test",
+      "pr_number": 15,
+      "expected_sha": "a71a02126fa5ced216129dc8d59786caebdf59f0",
+      "verdict_sha": "a71a02126fa5ced216129dc8d59786caebdf59f0",
+      "confidence": 0.98,
+      "source": "llm",
+      "fallback_reason": null,
+      "result": "correct"
+    },
+    {
+      "case": "13",
+      "category": "hard_decoy_src",
+      "pr_number": 16,
+      "expected_sha": "c9e2443354214199f7b33e19a0a98e6296482c5c",
+      "verdict_sha": "c9e2443354214199f7b33e19a0a98e6296482c5c",
+      "confidence": 0.97,
+      "source": "llm",
+      "fallback_reason": null,
+      "result": "correct"
+    },
+    {
+      "case": "14",
+      "category": "hard_decoy_test",
+      "pr_number": 17,
+      "expected_sha": "a6acccd5ddbf561df02975ad8c3c0f3ef0f2f488",
+      "verdict_sha": "a6acccd5ddbf561df02975ad8c3c0f3ef0f2f488",
       "confidence": 0.96,
       "source": "llm",
       "fallback_reason": null,

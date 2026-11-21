@@ -152,6 +152,157 @@
           "guilty": true
         }
       ]
+    },
+    {
+      "case": "09",
+      "name": "floor-division-hidden",
+      "branch": "seed/09-floor-division-hidden",
+      "pr_number": 12,
+      "category": "hard_decoy_test",
+      "description": "First of three commits switches divide to floor division; existing tests still pass. The newest commit adds a correct test (divide(7, 2) == 3.5) that is the one that fails.",
+      "guilty_sha": "e72edc1b0bbb848ecd0ce9a6d8e9286aa23d584f",
+      "commits": [
+        {
+          "sha": "e72edc1b0bbb848ecd0ce9a6d8e9286aa23d584f",
+          "message": "Use floor division in divide",
+          "guilty": true
+        },
+        {
+          "sha": "39787062dcff96128f1a014c5cbe9479ee195604",
+          "message": "Add README usage section",
+          "guilty": false
+        },
+        {
+          "sha": "48877aac95595f41e37174028b1430d904284b18",
+          "message": "Add test for fractional divide",
+          "guilty": false
+        }
+      ]
+    },
+    {
+      "case": "10",
+      "name": "int-coercion-docstring-decoy",
+      "branch": "seed/10-int-coercion-docstring-decoy",
+      "pr_number": 13,
+      "category": "hard_decoy_src",
+      "description": "Middle commit coerces add's inputs to int; the earlier test (add(2.5, 1.5) == 4.0) now fails. A later docstring-only commit touches the same function.",
+      "guilty_sha": "9cc32552e4dbff7aaed63e285ad7c08c9e397264",
+      "commits": [
+        {
+          "sha": "1802050f5a7a967dc1da0680b5211595ea8f280f",
+          "message": "Add float addition test",
+          "guilty": false
+        },
+        {
+          "sha": "9cc32552e4dbff7aaed63e285ad7c08c9e397264",
+          "message": "Coerce add inputs to int for safety",
+          "guilty": true
+        },
+        {
+          "sha": "98d2dc81b183452377f96ada02e44f2e6aac58ee",
+          "message": "Document add behaviour",
+          "guilty": false
+        }
+      ]
+    },
+    {
+      "case": "11",
+      "name": "unavailable-pin-among-valid",
+      "branch": "seed/11-unavailable-pin-among-valid",
+      "pr_number": 14,
+      "category": "hard_dependency",
+      "description": "Three commits each add a pytest plugin to requirements.txt; the middle one pins pytest-randomly==99.0.0, which does not exist.",
+      "guilty_sha": "1e9730d3987c601cef3150bf5f3f713e20e538ac",
+      "commits": [
+        {
+          "sha": "97f123f5282815aeffdc68e5f47d0eed84293fb5",
+          "message": "Add pytest-cov for coverage",
+          "guilty": false
+        },
+        {
+          "sha": "1e9730d3987c601cef3150bf5f3f713e20e538ac",
+          "message": "Add pytest-randomly for test ordering",
+          "guilty": true
+        },
+        {
+          "sha": "8c5f5a789fa45add8592ac7b1e55b2aeb6c802d0",
+          "message": "Add pytest-xdist for parallel runs",
+          "guilty": false
+        }
+      ]
+    },
+    {
+      "case": "12",
+      "name": "error-message-reworded",
+      "branch": "seed/12-error-message-reworded",
+      "pr_number": 15,
+      "category": "hard_decoy_test",
+      "description": "Middle commit rewords divide's ValueError message; the existing test matches the old text. The newest commit edits the test file for an unrelated multiply test.",
+      "guilty_sha": "a71a02126fa5ced216129dc8d59786caebdf59f0",
+      "commits": [
+        {
+          "sha": "3ec327feb1e7231532112ba676f6f92385176eeb",
+          "message": "Add multiply helper",
+          "guilty": false
+        },
+        {
+          "sha": "a71a02126fa5ced216129dc8d59786caebdf59f0",
+          "message": "Reword zero-division error message",
+          "guilty": true
+        },
+        {
+          "sha": "276118aef17d9d02d0e2cacc3f45d13656f0d671",
+          "message": "Add multiply test",
+          "guilty": false
+        }
+      ]
+    },
+    {
+      "case": "13",
+      "name": "test-edit-after-refactor",
+      "branch": "seed/13-test-edit-after-refactor",
+      "pr_number": 16,
+      "category": "hard_decoy_src",
+      "description": "First commit is a behaviour-preserving refactor of divide; the second wrongly changes the test's expected value (divide(10, 2) == 2.5).",
+      "guilty_sha": "c9e2443354214199f7b33e19a0a98e6296482c5c",
+      "commits": [
+        {
+          "sha": "cadde8ae7d2239e644672a15cea20c9ccbb9a3a7",
+          "message": "Simplify zero check in divide",
+          "guilty": false
+        },
+        {
+          "sha": "c9e2443354214199f7b33e19a0a98e6296482c5c",
+          "message": "Update divide expectations",
+          "guilty": true
+        }
+      ]
+    },
+    {
+      "case": "14",
+      "name": "rounding-hidden",
+      "branch": "seed/14-rounding-hidden",
+      "pr_number": 17,
+      "category": "hard_decoy_test",
+      "description": "First commit rounds add's result to one decimal; existing tests still pass. The newest commit adds a correct test (add(0.12, 0.13) == 0.25) that fails.",
+      "guilty_sha": "a6acccd5ddbf561df02975ad8c3c0f3ef0f2f488",
+      "commits": [
+        {
+          "sha": "a6acccd5ddbf561df02975ad8c3c0f3ef0f2f488",
+          "message": "Round add results to one decimal",
+          "guilty": true
+        },
+        {
+          "sha": "c4eef5f475e087033db2ada1ea188f6390993f3c",
+          "message": "Add README note about precision",
+          "guilty": false
+        },
+        {
+          "sha": "42440f59dff682a13f3dd61ee9190457f7659e03",
+          "message": "Add test for small decimals",
+          "guilty": false
+        }
+      ]
     }
   ]
 }
