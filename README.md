@@ -1,5 +1,7 @@
 # ci-sense
 
+A small calculator library used to exercise CI failure triage.
+
 Run tests with: pytest -v
 
 ## Evaluation
