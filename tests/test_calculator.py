@@ -1,6 +1,6 @@
 import pytest
 
-from src.calculator import add, divide
+from src.calculater import add, divide
 
 
 def test_add():
